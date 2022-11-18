@@ -1,15 +1,18 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class EpicTask extends Task {
-    HashMap<Long, SubTask> subTasksOfEpic = new HashMap<>();
+    private ArrayList<Long> subTasksOfEpicIdList = new ArrayList<>();
 
     public EpicTask(String name, String description) {
         super(name, description);
     }
 
-    public EpicTask(String name, String description, long id) {
-        super(name, description, id);
+    public ArrayList<Long> getSubTasksOfEpicList() {
+        return subTasksOfEpicIdList;
+    }
 
+    public void setSubTasksOfEpicList(ArrayList<Long> subTasksOfEpicList) {
+        this.subTasksOfEpicIdList = subTasksOfEpicList;
     }
 }
 

@@ -1,12 +1,6 @@
 public class SubTask extends Task {
 
     private long epicTaskID;
-    private String status = "NEW";
-
-    public SubTask(String name, String description, long id, String status, long epicTaskID) {
-        super(name, description, id, status);
-        this.epicTaskID = epicTaskID;
-    }
 
     public SubTask(String name, String description, long epicTaskID) {
         super(name, description);
@@ -15,5 +9,9 @@ public class SubTask extends Task {
 
     public long getEpicTaskID() {
         return epicTaskID;
+    }
+
+    public void setEpicTaskID(long epicTaskID) {
+        this.epicTaskID = epicTaskID;
     }
 }
