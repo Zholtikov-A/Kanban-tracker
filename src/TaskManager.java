@@ -1,3 +1,7 @@
+import Tasks.EpicTask;
+import Tasks.SubTask;
+import Tasks.Task;
+
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.ArrayList;
@@ -9,28 +13,27 @@ public class TaskManager {
     HashMap<Long, SubTask> subTasks = new HashMap<>();
     HashMap<Long, EpicTask> epicTasks = new HashMap<>();
 
-    public long generateID() {
+    private long generateID() {
         newTaskId++;
         return newTaskId;
     }
 
-    public void recordSimpleTask(Task task) {
+    public long recordSimpleTask(Task task) {
         task.setId(generateID());
         task.setStatus("NEW");
         simpleTasks.put(task.getId(), task);
+        return task.getId();
     }
 
-    public void replaceSimpleTask(Task task, long id, String status) {
-        task.setId(id);
-        task.setStatus(status);
+    public void replaceSimpleTask(Task task) {
         simpleTasks.replace(task.getId(), task);
     }
 
-    public HashMap<Long, Task> showSimpleTasks() {
+    public ArrayList<Task> showSimpleTasks() {
         if (!simpleTasks.isEmpty()) {
-            return simpleTasks;
+            return new ArrayList<>(simpleTasks.values());
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -46,28 +49,26 @@ public class TaskManager {
         simpleTasks.remove(simpleTaskId);
     }
 
-    public void recordSubTask(SubTask subTask) {
+    public long recordSubTask(SubTask subTask) {
         subTask.setId(generateID());
         subTask.setStatus("NEW");
         subTasks.put(subTask.getId(), subTask);
         epicTasks.get(subTask.getEpicTaskID()).getSubTasksOfEpicList().add(subTask.getId());
         checkEpicStatus(subTask.getEpicTaskID());
+        return subTask.getId();
     }
 
-    public void replaceSubTask(SubTask subTask, long id, String status) {
-        subTask.setId(id);
-        subTask.setStatus(status);
-        long epicTaskId = subTasks.get(id).getEpicTaskID();
-        subTask.setEpicTaskID(epicTaskId);
+    public void replaceSubTask(SubTask subTask) {
+        long id = subTask.getId();
         subTasks.replace(id, subTask);
         checkEpicStatus(subTask.getEpicTaskID());
     }
 
-    public HashMap<Long, SubTask> showSubTasks() {
+    public ArrayList<SubTask> showSubTasks() {
         if (!subTasks.isEmpty()) {
-            return subTasks;
+            return new ArrayList<>(subTasks.values());
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -78,7 +79,6 @@ public class TaskManager {
             epicTask.getSubTasksOfEpicList().clear();
         }
     }
-
 
     public SubTask getSubTaskById(long subTaskId) {
         return subTasks.getOrDefault(subTaskId, null);
@@ -123,26 +123,25 @@ public class TaskManager {
         }
     }
 
-
-    public void recordEpicTask(EpicTask epicTask) {
+    public long recordEpicTask(EpicTask epicTask) {
         epicTask.setId(generateID());
         epicTask.setStatus("NEW");
         epicTasks.put(epicTask.getId(), epicTask);
+        return epicTask.getId();
     }
 
-    public void replaceEpicTask(EpicTask epicTask, long id) {
+    public void replaceEpicTask(EpicTask epicTask) {
+        long id = epicTask.getId();
         ArrayList<Long> subTasksOfEpicList = epicTasks.get(id).getSubTasksOfEpicList();
         epicTask.setSubTasksOfEpicList(subTasksOfEpicList);
-        String status = epicTasks.get(id).getStatus();
-        epicTask.setStatus(status);
         epicTasks.replace(id, epicTask);
     }
 
-    public HashMap<Long, EpicTask> showEpicTasks() {
+    public ArrayList<EpicTask> showEpicTasks() {
         if (!epicTasks.isEmpty()) {
-            return epicTasks;
+            return new ArrayList<>(epicTasks.values());
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -160,6 +159,16 @@ public class TaskManager {
             subTasks.remove(subTaskForDeleteId);
         }
         epicTasks.remove(epicTaskId);
+    }
+
+    public ArrayList<SubTask> showSubTasksOfEpicList(long epicTaskId) {
+        ArrayList<SubTask> subList = new ArrayList<>();
+        for (SubTask subTask : subTasks.values()) {
+            if (subTask.getEpicTaskID() == epicTaskId) {
+                subList.add(subTask);
+            }
+        }
+        return subList;
     }
 }
 
