@@ -1,4 +1,4 @@
-package Tasks;
+package ru.yandex.practicum.taskTracker.tasks;
 
 public class Task {
     private String name;

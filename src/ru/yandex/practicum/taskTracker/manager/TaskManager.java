@@ -1,6 +1,8 @@
-import Tasks.EpicTask;
-import Tasks.SubTask;
-import Tasks.Task;
+package ru.yandex.practicum.taskTracker.manager;
+
+import ru.yandex.practicum.taskTracker.tasks.EpicTask;
+import ru.yandex.practicum.taskTracker.tasks.SubTask;
+import ru.yandex.practicum.taskTracker.tasks.Task;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -30,11 +32,7 @@ public class TaskManager {
     }
 
     public ArrayList<Task> showSimpleTasks() {
-        if (!simpleTasks.isEmpty()) {
-            return new ArrayList<>(simpleTasks.values());
-        } else {
-            return new ArrayList<>();
-        }
+        return new ArrayList<>(simpleTasks.values());
     }
 
     public void removeAllSimpleTasks() {
@@ -65,11 +63,7 @@ public class TaskManager {
     }
 
     public ArrayList<SubTask> showSubTasks() {
-        if (!subTasks.isEmpty()) {
-            return new ArrayList<>(subTasks.values());
-        } else {
-            return new ArrayList<>();
-        }
+        return new ArrayList<>(subTasks.values());
     }
 
     public void removeAllSubTasks() {
@@ -133,16 +127,11 @@ public class TaskManager {
     public void replaceEpicTask(EpicTask epicTask) {
         long id = epicTask.getId();
         ArrayList<Long> subTasksOfEpicList = epicTasks.get(id).getSubTasksOfEpicList();
-        epicTask.setSubTasksOfEpicList(subTasksOfEpicList);
         epicTasks.replace(id, epicTask);
     }
 
     public ArrayList<EpicTask> showEpicTasks() {
-        if (!epicTasks.isEmpty()) {
-            return new ArrayList<>(epicTasks.values());
-        } else {
-            return new ArrayList<>();
-        }
+        return new ArrayList<>(epicTasks.values());
     }
 
     public void removeAllEpicTasks() {
@@ -161,7 +150,7 @@ public class TaskManager {
         epicTasks.remove(epicTaskId);
     }
 
-    public ArrayList<SubTask> showSubTasksOfEpicList(long epicTaskId) {
+    public ArrayList<SubTask> showSubTasksOfEpic(long epicTaskId) {
         ArrayList<SubTask> subList = new ArrayList<>();
         for (SubTask subTask : subTasks.values()) {
             if (subTask.getEpicTaskID() == epicTaskId) {

@@ -1,6 +1,9 @@
-import Tasks.EpicTask;
-import Tasks.SubTask;
-import Tasks.Task;
+package ru.yandex.practicum.taskTracker;
+
+import ru.yandex.practicum.taskTracker.manager.TaskManager;
+import ru.yandex.practicum.taskTracker.tasks.EpicTask;
+import ru.yandex.practicum.taskTracker.tasks.SubTask;
+import ru.yandex.practicum.taskTracker.tasks.Task;
 
 public class Main {
 
@@ -63,7 +66,7 @@ public class Main {
         System.out.println(taskManager.showEpicTasks());
         System.out.println(taskManager.showSubTasks());
         System.out.println();
-        System.out.println(taskManager.showSubTasksOfEpicList(epicTaskId3));
+        System.out.println(taskManager.showSubTasksOfEpic(epicTaskId3));
         System.out.println();
         taskManager.removeSimpleTaskById(simpleTaskId1);
         taskManager.removeEpicTaskById(epicTaskId3);
