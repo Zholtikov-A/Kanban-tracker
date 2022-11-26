@@ -9,7 +9,6 @@ public class Main {
 
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
-        //тут много длинных строк, как правильнее разбить строки? По запятой между name и description?
         long simpleTaskId1 = taskManager.recordSimpleTask(new Task("First SimpleTask", "SimpleTask(ID=1)"));
         long simpleTaskId2 = taskManager.recordSimpleTask(new Task("Second SimpleTask", "DSimpleTask(ID=2)"));
         long epicTaskId3 = taskManager.recordEpicTask(new EpicTask("First EpicTask", "EpicTask(ID=3)"));

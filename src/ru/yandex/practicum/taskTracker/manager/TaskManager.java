@@ -126,7 +126,6 @@ public class TaskManager {
 
     public void replaceEpicTask(EpicTask epicTask) {
         long id = epicTask.getId();
-        ArrayList<Long> subTasksOfEpicList = epicTasks.get(id).getSubTasksOfEpicList();
         epicTasks.replace(id, epicTask);
     }
 
