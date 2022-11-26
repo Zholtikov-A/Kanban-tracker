@@ -4,7 +4,7 @@ public class Task {
     private String name;
     private String description;
     private long id;
-    private String status;
+    private TaskStatus status;
 
     public Task(String name, String description) {
         this.name = name;
@@ -19,11 +19,11 @@ public class Task {
         this.id = Id;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
