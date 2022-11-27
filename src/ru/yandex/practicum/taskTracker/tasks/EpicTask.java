@@ -1,19 +1,20 @@
 package ru.yandex.practicum.taskTracker.tasks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EpicTask extends Task {
-    private ArrayList<Long> subTasksOfEpicIdList = new ArrayList<>();
+    private List<Long> subTasksOfEpicIdList = new ArrayList<>();
 
     public EpicTask(String name, String description) {
         super(name, description);
     }
 
-    public ArrayList<Long> getSubTasksOfEpicList() {
+    public List<Long> getSubTasksOfEpicList() {
         return subTasksOfEpicIdList;
     }
 
-    public void setSubTasksOfEpicList(ArrayList<Long> subTasksOfEpicList) {
+    public void setSubTasksOfEpicList(List<Long> subTasksOfEpicList) {
         this.subTasksOfEpicIdList = subTasksOfEpicList;
     }
 }

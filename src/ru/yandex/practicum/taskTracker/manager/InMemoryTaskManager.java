@@ -6,6 +6,7 @@ import ru.yandex.practicum.taskTracker.tasks.Task;
 import ru.yandex.practicum.taskTracker.tasks.TaskStatus;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ArrayList;
 
@@ -14,18 +15,17 @@ public class InMemoryTaskManager implements TaskManager {
     private long newTaskId = 0;
     Managers managers = new Managers();
     HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
-    HashMap<Long, Task> simpleTasks = new HashMap<>();
-    HashMap<Long, SubTask> subTasks = new HashMap<>();
-    HashMap<Long, EpicTask> epicTasks = new HashMap<>();
+    Map<Long, Task> simpleTasks = new HashMap<>();
+    Map<Long, SubTask> subTasks = new HashMap<>();
+    Map<Long, EpicTask> epicTasks = new HashMap<>();
 
-    private long generateID() {
-        newTaskId++;
-        return newTaskId;
+    private long generateId() {
+        return ++newTaskId;
     }
 
     @Override
     public long recordSimpleTask(Task task) {
-        task.setId(generateID());
+        task.setId(generateId());
         task.setStatus(TaskStatus.NEW);
         simpleTasks.put(task.getId(), task);
         return task.getId();
@@ -51,7 +51,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (simpleTasks.containsKey(simpleTaskId)) {
             inMemoryHistoryManager.add(simpleTasks.get(simpleTaskId));
         }
-        return simpleTasks.getOrDefault(simpleTaskId, null);
+        return simpleTasks.get(simpleTaskId);
+
     }
 
     @Override
@@ -61,7 +62,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public long recordSubTask(SubTask subTask) {
-        subTask.setId(generateID());
+        subTask.setId(generateId());
         subTask.setStatus(TaskStatus.NEW);
         subTasks.put(subTask.getId(), subTask);
         epicTasks.get(subTask.getEpicTaskID()).getSubTasksOfEpicList().add(subTask.getId());
@@ -95,7 +96,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subTasks.containsKey(subTaskId)) {
             inMemoryHistoryManager.add(subTasks.get(subTaskId));
         }
-        return subTasks.getOrDefault(subTaskId, null);
+        return subTasks.get(subTaskId);
     }
 
     @Override
@@ -140,7 +141,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public long recordEpicTask(EpicTask epicTask) {
-        epicTask.setId(generateID());
+        epicTask.setId(generateId());
         epicTask.setStatus(TaskStatus.NEW);
         epicTasks.put(epicTask.getId(), epicTask);
         return epicTask.getId();
@@ -168,7 +169,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epicTasks.containsKey(epicTaskId)) {
             inMemoryHistoryManager.add(epicTasks.get(epicTaskId));
         }
-        return epicTasks.getOrDefault(epicTaskId, null);
+        return epicTasks.get(epicTaskId);
     }
 
     @Override
