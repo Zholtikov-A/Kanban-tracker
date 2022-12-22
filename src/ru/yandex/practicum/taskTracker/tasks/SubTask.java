@@ -2,18 +2,18 @@ package ru.yandex.practicum.taskTracker.tasks;
 
 public class SubTask extends Task {
 
-    private long epicTaskID;
+    private Long epicTaskID;
 
-    public SubTask(String name, String description, long epicTaskID) {
+    public SubTask(String name, String description, Long epicTaskID) {
         super(name, description);
         this.epicTaskID = epicTaskID;
     }
 
-    public long getEpicTaskID() {
+    public Long getEpicTaskID() {
         return epicTaskID;
     }
 
-    public void setEpicTaskID(long epicTaskID) {
+    public void setEpicTaskID(Long epicTaskID) {
         this.epicTaskID = epicTaskID;
     }
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface TaskManager {
 
-    long recordSimpleTask(Task task);
+    Long recordSimpleTask(Task task);
 
     void replaceSimpleTask(Task task);
 
@@ -16,11 +16,11 @@ public interface TaskManager {
 
     void removeAllSimpleTasks();
 
-    Task getSimpleTaskById(long simpleTaskId);
+    Task getSimpleTaskById(Long simpleTaskId);
 
-    void removeSimpleTaskById(long simpleTaskId);
+    void removeSimpleTaskById(Long simpleTaskId);
 
-    long recordSubTask(SubTask subTask);
+    Long recordSubTask(SubTask subTask);
 
     void replaceSubTask(SubTask subTask);
 
@@ -28,12 +28,12 @@ public interface TaskManager {
 
     void removeAllSubTasks();
 
-    SubTask getSubTaskById(long subTaskId);
+    SubTask getSubTaskById(Long subTaskId);
 
-    void removeSubTaskById(long subTaskId);
+    void removeSubTaskById(Long subTaskId);
 
-    //    void checkEpicStatus(long epicTaskId);
-    long recordEpicTask(EpicTask epicTask);
+    //    void checkEpicStatus(Long epicTaskId);
+    Long recordEpicTask(EpicTask epicTask);
 
     void replaceEpicTask(EpicTask epicTask);
 
@@ -41,9 +41,9 @@ public interface TaskManager {
 
     void removeAllEpicTasks();
 
-    EpicTask getEpicTaskById(long epicTaskId);
+    EpicTask getEpicTaskById(Long epicTaskId);
 
-    void removeEpicTaskById(long epicTaskId);
+    void removeEpicTaskById(Long epicTaskId);
 
-    ArrayList<SubTask> showSubTasksOfEpic(long epicTaskId);
+    ArrayList<SubTask> showSubTasksOfEpic(Long epicTaskId);
 }
