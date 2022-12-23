@@ -4,7 +4,7 @@ import ru.yandex.practicum.taskTracker.tasks.EpicTask;
 import ru.yandex.practicum.taskTracker.tasks.SubTask;
 import ru.yandex.practicum.taskTracker.tasks.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -12,7 +12,7 @@ public interface TaskManager {
 
     void replaceSimpleTask(Task task);
 
-    ArrayList<Task> showSimpleTasks();
+    List<Task> showSimpleTasks();
 
     void removeAllSimpleTasks();
 
@@ -24,7 +24,7 @@ public interface TaskManager {
 
     void replaceSubTask(SubTask subTask);
 
-    ArrayList<SubTask> showSubTasks();
+    List<SubTask> showSubTasks();
 
     void removeAllSubTasks();
 
@@ -32,12 +32,11 @@ public interface TaskManager {
 
     void removeSubTaskById(Long subTaskId);
 
-    //    void checkEpicStatus(Long epicTaskId);
     Long recordEpicTask(EpicTask epicTask);
 
     void replaceEpicTask(EpicTask epicTask);
 
-    ArrayList<EpicTask> showEpicTasks();
+    List<EpicTask> showEpicTasks();
 
     void removeAllEpicTasks();
 
@@ -45,5 +44,5 @@ public interface TaskManager {
 
     void removeEpicTaskById(Long epicTaskId);
 
-    ArrayList<SubTask> showSubTasksOfEpic(Long epicTaskId);
+    List<SubTask> showSubTasksOfEpic(Long epicTaskId);
 }

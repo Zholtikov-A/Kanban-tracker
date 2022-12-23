@@ -5,19 +5,15 @@ import ru.yandex.practicum.taskTracker.tasks.SubTask;
 import ru.yandex.practicum.taskTracker.tasks.Task;
 import ru.yandex.practicum.taskTracker.tasks.TaskStatus;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ArrayList;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private Long newTaskId = 0L;
-    Managers managers = new Managers();
-    HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
-    Map<Long, Task> simpleTasks = new HashMap<>();
-    Map<Long, SubTask> subTasks = new HashMap<>();
-    Map<Long, EpicTask> epicTasks = new HashMap<>();
+    private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
+    private Map<Long, Task> simpleTasks = new HashMap<>();
+    private Map<Long, SubTask> subTasks = new HashMap<>();
+    private Map<Long, EpicTask> epicTasks = new HashMap<>();
 
     private Long generateId() {
         return ++newTaskId;
@@ -37,7 +33,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> showSimpleTasks() {
+    public List<Task> showSimpleTasks() {
         return new ArrayList<>(simpleTasks.values());
     }
 
@@ -81,7 +77,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<SubTask> showSubTasks() {
+    public  List<SubTask> showSubTasks() {
         return new ArrayList<>(subTasks.values());
     }
 
@@ -121,7 +117,7 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             int numberOfNewSubTasks = 0;
             int numberOfDoneSubTasks = 0;
-            HashMap<Long, SubTask> subList = new HashMap<>();
+            Map<Long, SubTask> subList = new HashMap<>();
             for (SubTask subTask : subTasks.values()) {
                 if (subTask.getEpicTaskID() == epicTaskId) {
                     subList.put(subTask.getId(), subTask);
@@ -161,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<EpicTask> showEpicTasks() {
+    public List<EpicTask> showEpicTasks() {
         return new ArrayList<>(epicTasks.values());
     }
 
@@ -196,8 +192,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<SubTask> showSubTasksOfEpic(Long epicTaskId) {
-        ArrayList<SubTask> subList = new ArrayList<>();
+    public List<SubTask> showSubTasksOfEpic(Long epicTaskId) {
+        List<SubTask> subList = new ArrayList<>();
         for (SubTask subTask : subTasks.values()) {
             if (subTask.getEpicTaskID() == epicTaskId) {
                 subList.add(subTask);
