@@ -8,6 +8,11 @@ public class EpicTask extends Task {
 
     public EpicTask(String name, String description) {
         super(name, description);
+        this.setType(TaskType.EPIC);
+    }
+
+    public EpicTask(Long id, TaskType type, String name, TaskStatus status, String description) {
+        super(id, type, name, status, description);
     }
 
     public List<Long> getSubTasksOfEpicList() {

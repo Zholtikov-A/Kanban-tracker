@@ -5,14 +5,31 @@ public class Task {
     private String description;
     private Long id;
     private TaskStatus status;
+    private TaskType type = TaskType.TASK;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
+    public Task(Long id, TaskType type, String name, TaskStatus status, String description) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public TaskType getType() {
+        return type;
+    }
+
+    public void setType(TaskType type) {
+        this.type = type;
     }
 
     public void setId(Long Id) {

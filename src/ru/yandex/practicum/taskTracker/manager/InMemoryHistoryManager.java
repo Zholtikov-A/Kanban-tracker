@@ -32,49 +32,50 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     public Node<Task> head;
     public Node<Task> tail;
-    private int size = 0;
 
     public void linkLast(Task element) {
-        final Node<Task> oldTail = tail;
-        final Node<Task> newNode = new Node<>(oldTail, element, null);
-        tail = newNode;
-        if (oldTail == null) {
-            head = newNode;
+        if (head == null) {
+            head = new Node<>(null, element, null);
+            tail = head;
+        } else if (head != null && head.next == null) {
+            tail = new Node<>(head, element, null);
+            head.next = tail;
         } else {
-            oldTail.next = newNode;
+            Node oldTail = tail;
+            Node newNode = new Node(oldTail, element, null);
+            tail.next = newNode;
+            tail = newNode;
         }
-        size++;
     }
 
     private List<Task> getTasks() {
+        if (historyAccess.isEmpty()) {
+            return null;
+        }
         List<Task> newList = new ArrayList<>();
-        Node<Task> currentNode = null;
-        for (int i = 0; i < size; i++) {
-            if (i == 0) {
-                newList.add(head.data);
-                currentNode = head;
-            } else if (i == (size - 1)) {
-                newList.add(tail.data);
-            } else {
-                newList.add(currentNode.next.data);
-                currentNode = currentNode.next;
-            }
+        Node<Task> currentNode = head;
+        newList.add(head.data);
+        while (currentNode.next != null) {
+            currentNode = currentNode.next;
+            newList.add(currentNode.data);
         }
         return newList;
     }
 
     public void removeNode(Node<Task> node) {
-        if (node.prev == null) {
-            head = node.next;
-            node.next.prev = null;
-        } else if (node.next == null) {
-            tail = node.prev;
-            node.prev.next = null;
-        } else {
+        if (node == null) {
+            return;
+        }
+        if (node.prev != null && node.next != null) {
             node.prev.next = node.next;
             node.next.prev = node.prev;
+        } else if (node.prev != null) {
+            tail = node.prev;
+            node.prev.next = null;
+        } else if (node.next != null) {
+            head = node.next;
+            node.next.prev = node.prev;
         }
-        size--;
     }
 }
 

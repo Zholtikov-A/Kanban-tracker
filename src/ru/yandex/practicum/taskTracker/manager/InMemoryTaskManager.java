@@ -5,15 +5,16 @@ import ru.yandex.practicum.taskTracker.tasks.SubTask;
 import ru.yandex.practicum.taskTracker.tasks.Task;
 import ru.yandex.practicum.taskTracker.tasks.TaskStatus;
 
+import java.io.IOException;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
     private Long newTaskId = 0L;
     private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
-    private Map<Long, Task> simpleTasks = new HashMap<>();
-    private Map<Long, SubTask> subTasks = new HashMap<>();
-    private Map<Long, EpicTask> epicTasks = new HashMap<>();
+    protected Map<Long, Task> simpleTasks = new HashMap<>();
+    protected Map<Long, SubTask> subTasks = new HashMap<>();
+    protected Map<Long, EpicTask> epicTasks = new HashMap<>();
 
     private Long generateId() {
         return ++newTaskId;
@@ -77,7 +78,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public  List<SubTask> showSubTasks() {
+    public List<SubTask> showSubTasks() {
         return new ArrayList<>(subTasks.values());
     }
 
@@ -162,7 +163,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void removeAllEpicTasks() {
+    public void removeAllEpicTasks() throws IOException {
         for (Task taskForDelete : epicTasks.values()) {
             inMemoryHistoryManager.remove(taskForDelete.getId());
         }
@@ -200,6 +201,10 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return subList;
+    }
+
+    public HistoryManager getInMemoryHistoryManager() {
+        return inMemoryHistoryManager;
     }
 }
 
