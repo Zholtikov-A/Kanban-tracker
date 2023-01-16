@@ -21,15 +21,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Long recordSimpleTask(Task task) {
-        super.recordSimpleTask(task);
+    public Long saveSimpleTask(Task task) {
+        super.saveSimpleTask(task);
         save();
         return task.getId();
     }
 
     @Override
-    public void replaceSimpleTask(Task task) {
-        super.replaceSimpleTask(task);
+    public void updateSimpleTask(Task task) {
+        super.updateSimpleTask(task);
         save();
     }
 
@@ -55,15 +55,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Long recordSubTask(SubTask subTask) {
-        super.recordSubTask(subTask);
+    public Long saveSubTask(SubTask subTask) {
+        super.saveSubTask(subTask);
         save();
         return subTask.getId();
     }
 
     @Override
-    public void replaceSubTask(SubTask subTask) {
-        super.replaceSubTask(subTask);
+    public void updateSubTask(SubTask subTask) {
+        super.updateSubTask(subTask);
         save();
     }
 
@@ -89,15 +89,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Long recordEpicTask(EpicTask epicTask) {
-        super.recordEpicTask(epicTask);
+    public Long saveEpicTask(EpicTask epicTask) {
+        super.saveEpicTask(epicTask);
         save();
         return epicTask.getId();
     }
 
     @Override
-    public void replaceEpicTask(EpicTask epicTask) {
-        super.replaceEpicTask(epicTask);
+    public void updateEpicTask(EpicTask epicTask) {
+        super.updateEpicTask(epicTask);
         save();
     }
 
@@ -216,8 +216,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     static List<Long> historyFromString(String value) {
         List<Long> historyLoaded = new ArrayList<>();
         String[] historyData = value.split(",");
-        for (int i = 0; i < historyData.length; i++) {
-            historyLoaded.add(Long.parseLong(historyData[i]));
+        for (String historyDatum : historyData) {
+            historyLoaded.add(Long.parseLong(historyDatum));
         }
         return historyLoaded;
     }
@@ -225,19 +225,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static void main(String[] args) {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(
                 new File("src/ru/yandex/practicum/taskTracker/dataStorage/FileManager.csv"));
-        Long simpleTaskId1 = fileBackedTasksManager.recordSimpleTask(new Task("First SimpleTask", "SimpleTask(ID=1)"));
-        Long simpleTaskId2 = fileBackedTasksManager.recordSimpleTask(new Task("Second SimpleTask", "DSimpleTask(ID=2)"));
-        Long epicTaskId3 = fileBackedTasksManager.recordEpicTask(new EpicTask("First EpicTask", "EpicTask(ID=3)"));
-        Long subTaskId4 = fileBackedTasksManager.recordSubTask(new SubTask("First SubTask", "SubTask(ID=4) of first EpicTask(ID=3)", epicTaskId3));
-        Long subTaskId5 = fileBackedTasksManager.recordSubTask(new SubTask("Second SubTask", "SubTask(ID=5) of first EpicTask(ID=3)", epicTaskId3));
-        Long subTaskId6 = fileBackedTasksManager.recordSubTask(new SubTask("Third SubTask", "SubTask(ID=6) of first EpicTask(ID=3)", epicTaskId3));
-        Long epicTaskId7 = fileBackedTasksManager.recordEpicTask(new EpicTask("Second EpicTask", "EpicTask(ID=7)"));
-        Long subTaskId8 = fileBackedTasksManager.recordSubTask(new SubTask("Fourth SubTask", "SubTask(ID=8) of first EpicTask(ID=7)", epicTaskId7));
-
-        //fileBackedTasksManager.getSimpleTaskById(1L);
-         /*Если первое и второе обращение будет к одной и той же задаче
-         - она запишется в голову списка и оттуда уже не затрётся, любые повторы после этого программа корректно отрабатывает.
-         Почему так выходит - понять не смог. На выполение ТЗ не влияет, но баг есть баг и хочется с ним разобраться.*/
+        Long simpleTaskId1 = fileBackedTasksManager.saveSimpleTask(new Task("First SimpleTask", "SimpleTask(ID=1)"));
+        Long simpleTaskId2 = fileBackedTasksManager.saveSimpleTask(new Task("Second SimpleTask", "DSimpleTask(ID=2)"));
+        Long epicTaskId3 = fileBackedTasksManager.saveEpicTask(new EpicTask("First EpicTask", "EpicTask(ID=3)"));
+        Long subTaskId4 = fileBackedTasksManager.saveSubTask(new SubTask("First SubTask", "SubTask(ID=4) of first EpicTask(ID=3)", epicTaskId3));
+        Long subTaskId5 = fileBackedTasksManager.saveSubTask(new SubTask("Second SubTask", "SubTask(ID=5) of first EpicTask(ID=3)", epicTaskId3));
+        Long subTaskId6 = fileBackedTasksManager.saveSubTask(new SubTask("Third SubTask", "SubTask(ID=6) of first EpicTask(ID=3)", epicTaskId3));
+        Long epicTaskId7 = fileBackedTasksManager.saveEpicTask(new EpicTask("Second EpicTask", "EpicTask(ID=7)"));
+        Long subTaskId8 = fileBackedTasksManager.saveSubTask(new SubTask("Fourth SubTask", "SubTask(ID=8) of first EpicTask(ID=7)", epicTaskId7));
 
         fileBackedTasksManager.getSimpleTaskById(1L);
         fileBackedTasksManager.getSimpleTaskById(2L);

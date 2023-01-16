@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface TaskManager {
 
-    Long recordSimpleTask(Task task);
+    Long saveSimpleTask(Task task);
 
-    void replaceSimpleTask(Task task);
+    void updateSimpleTask(Task task);
 
     List<Task> showSimpleTasks();
 
@@ -21,9 +21,9 @@ public interface TaskManager {
 
     void removeSimpleTaskById(Long simpleTaskId);
 
-    Long recordSubTask(SubTask subTask);
+    Long saveSubTask(SubTask subTask);
 
-    void replaceSubTask(SubTask subTask);
+    void updateSubTask(SubTask subTask);
 
     List<SubTask> showSubTasks();
 
@@ -33,9 +33,9 @@ public interface TaskManager {
 
     void removeSubTaskById(Long subTaskId);
 
-    Long recordEpicTask(EpicTask epicTask);
+    Long saveEpicTask(EpicTask epicTask);
 
-    void replaceEpicTask(EpicTask epicTask);
+    void updateEpicTask(EpicTask epicTask);
 
     List<EpicTask> showEpicTasks();
 

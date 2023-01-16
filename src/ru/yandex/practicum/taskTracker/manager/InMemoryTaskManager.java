@@ -21,7 +21,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Long recordSimpleTask(Task task) {
+    public Long saveSimpleTask(Task task) {
         task.setId(generateId());
         task.setStatus(TaskStatus.NEW);
         simpleTasks.put(task.getId(), task);
@@ -29,7 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void replaceSimpleTask(Task task) {
+    public void updateSimpleTask(Task task) {
         simpleTasks.replace(task.getId(), task);
     }
 
@@ -61,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Long recordSubTask(SubTask subTask) {
+    public Long saveSubTask(SubTask subTask) {
         subTask.setId(generateId());
         subTask.setStatus(TaskStatus.NEW);
         subTasks.put(subTask.getId(), subTask);
@@ -71,7 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void replaceSubTask(SubTask subTask) {
+    public void updateSubTask(SubTask subTask) {
         Long id = subTask.getId();
         subTasks.replace(id, subTask);
         checkEpicStatus(subTask.getEpicTaskID());
@@ -144,7 +144,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Long recordEpicTask(EpicTask epicTask) {
+    public Long saveEpicTask(EpicTask epicTask) {
         epicTask.setId(generateId());
         epicTask.setStatus(TaskStatus.NEW);
         epicTasks.put(epicTask.getId(), epicTask);
@@ -152,7 +152,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void replaceEpicTask(EpicTask epicTask) {
+    public void updateEpicTask(EpicTask epicTask) {
         Long id = epicTask.getId();
         epicTasks.replace(id, epicTask);
     }

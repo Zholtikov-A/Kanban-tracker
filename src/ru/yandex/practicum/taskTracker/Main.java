@@ -18,13 +18,13 @@ public class Main {
         TaskManager inMemoryTaskManager = managers.getDefault();
         HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
 
-        Long simpleTaskId1 = inMemoryTaskManager.recordSimpleTask(new Task("First SimpleTask", "SimpleTask(ID=1)"));
-        Long simpleTaskId2 = inMemoryTaskManager.recordSimpleTask(new Task("Second SimpleTask", "DSimpleTask(ID=2)"));
-        Long epicTaskId3 = inMemoryTaskManager.recordEpicTask(new EpicTask("First EpicTask", "EpicTask(ID=3)"));
-        Long subTaskId4 = inMemoryTaskManager.recordSubTask(new SubTask("First SubTask", "SubTask(ID=4) of first EpicTask(ID=3)", epicTaskId3));
-        Long subTaskId5 = inMemoryTaskManager.recordSubTask(new SubTask("Second SubTask", "SubTask(ID=5) of first EpicTask(ID=3)", epicTaskId3));
-        Long subTaskId6 = inMemoryTaskManager.recordSubTask(new SubTask("Third SubTask", "SubTask(ID=6) of first EpicTask(ID=3)", epicTaskId3));
-        Long epicTaskId7 = inMemoryTaskManager.recordEpicTask(new EpicTask("Second EpicTask", "EpicTask(ID=7)"));
+        Long simpleTaskId1 = inMemoryTaskManager.saveSimpleTask(new Task("First SimpleTask", "SimpleTask(ID=1)"));
+        Long simpleTaskId2 = inMemoryTaskManager.saveSimpleTask(new Task("Second SimpleTask", "DSimpleTask(ID=2)"));
+        Long epicTaskId3 = inMemoryTaskManager.saveEpicTask(new EpicTask("First EpicTask", "EpicTask(ID=3)"));
+        Long subTaskId4 = inMemoryTaskManager.saveSubTask(new SubTask("First SubTask", "SubTask(ID=4) of first EpicTask(ID=3)", epicTaskId3));
+        Long subTaskId5 = inMemoryTaskManager.saveSubTask(new SubTask("Second SubTask", "SubTask(ID=5) of first EpicTask(ID=3)", epicTaskId3));
+        Long subTaskId6 = inMemoryTaskManager.saveSubTask(new SubTask("Third SubTask", "SubTask(ID=6) of first EpicTask(ID=3)", epicTaskId3));
+        Long epicTaskId7 = inMemoryTaskManager.saveEpicTask(new EpicTask("Second EpicTask", "EpicTask(ID=7)"));
 
 
         inMemoryTaskManager.getSimpleTaskById(8L);
