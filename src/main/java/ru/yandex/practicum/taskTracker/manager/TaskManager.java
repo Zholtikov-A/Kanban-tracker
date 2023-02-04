@@ -4,7 +4,6 @@ import ru.yandex.practicum.taskTracker.tasks.EpicTask;
 import ru.yandex.practicum.taskTracker.tasks.SubTask;
 import ru.yandex.practicum.taskTracker.tasks.Task;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface TaskManager {
@@ -39,11 +38,13 @@ public interface TaskManager {
 
     List<EpicTask> showEpicTasks();
 
-    void removeAllEpicTasks() throws IOException;
+    void removeAllEpicTasks();
 
     EpicTask getEpicTaskById(Long epicTaskId);
 
     void removeEpicTaskById(Long epicTaskId);
 
     List<SubTask> showSubTasksOfEpic(Long epicTaskId);
+
+    List<Task> getPrioritizedTasks();
 }
