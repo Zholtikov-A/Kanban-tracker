@@ -22,7 +22,7 @@ class HistoryManagerTest {
 
     @Test
     void add() {
-        Task simpleTaskId1 = new Task(1L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(ID=1)");
+        Task simpleTaskId1 = new Task(1L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(Id=1)");
         historyManager.add(simpleTaskId1);
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История пустая.");
@@ -37,10 +37,10 @@ class HistoryManagerTest {
 
     @Test
     void remove() {
-        Task simpleTaskId1 = new Task(1L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(ID=1)");
-        Task simpleTaskId2 = new Task(2L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(ID=2)");
-        Task simpleTaskId3 = new Task(3L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(ID=3)");
-        Task simpleTaskId4 = new Task(4L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(ID=4)");
+        Task simpleTaskId1 = new Task(1L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(Id=1)");
+        Task simpleTaskId2 = new Task(2L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(Id=2)");
+        Task simpleTaskId3 = new Task(3L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(Id=3)");
+        Task simpleTaskId4 = new Task(4L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(Id=4)");
         historyManager.remove(0L);
         final List<Task> emptyHistory = historyManager.getHistory();
         assertNull(emptyHistory, "История не пустая.");
@@ -73,7 +73,7 @@ class HistoryManagerTest {
     @Test
     void getHistory() {
         assertNull(historyManager.getHistory(), "История не пустая.");
-        Task simpleTaskId1 = new Task(1L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(ID=1)");
+        Task simpleTaskId1 = new Task(1L, TaskType.TASK, "SimpleTaskTest", TaskStatus.NEW, "SimpleTask(Id=1)");
         historyManager.add(simpleTaskId1);
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История пустая.");

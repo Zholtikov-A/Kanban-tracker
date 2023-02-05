@@ -24,9 +24,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Long saveSimpleTask(Task task) {
-        Long taskId = super.saveSimpleTask(task);
+        Long TaskId = super.saveSimpleTask(task);
         save();
-        return taskId;
+        return TaskId;
     }
 
     @Override
@@ -147,10 +147,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             if ((subTask.getStartTime() != null) && (subTask.getDuration() != null)) {
                 taskInString = subTask.getId() + "," + subTask.getType() + "," + subTask.getName() + ","
                         + subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getStartTime() + ","
-                        + subTask.getDuration() + "," + subTask.getEpicTaskID();
+                        + subTask.getDuration() + "," + subTask.getEpicTaskId();
             } else {
                 taskInString = subTask.getId() + "," + subTask.getType() + "," + subTask.getName() + ","
-                        + subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicTaskID();
+                        + subTask.getStatus() + "," + subTask.getDescription() + "," + subTask.getEpicTaskId();
             }
         } else {
             if ((task.getStartTime() != null) && (task.getDuration() != null)) {
@@ -187,17 +187,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 } else if (task.getType().equals(TaskType.SUBTASK)) {
                     SubTask subTask = (SubTask) task;
                     fileBackedTasksManager.subTasks.put(subTask.getId(), subTask);
-                    fileBackedTasksManager.epicTasks.get(subTask.getEpicTaskID()).getSubTasksOfEpicList().add(subTask.getId());
+                    fileBackedTasksManager.epicTasks.get(subTask.getEpicTaskId()).getSubTasksOfEpicList().add(subTask.getId());
                 }
             }
             List<Long> historyLoaded = historyFromString(savedLines[savedLines.length - 1]);
-            for (Long taskId : historyLoaded) {
-                if (fileBackedTasksManager.simpleTasks.containsKey(taskId)) {
-                    fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.simpleTasks.get(taskId));
-                } else if (fileBackedTasksManager.epicTasks.containsKey(taskId)) {
-                    fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.epicTasks.get(taskId));
-                } else if (fileBackedTasksManager.subTasks.containsKey(taskId)) {
-                    fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.subTasks.get(taskId));
+            for (Long TaskId : historyLoaded) {
+                if (fileBackedTasksManager.simpleTasks.containsKey(TaskId)) {
+                    fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.simpleTasks.get(TaskId));
+                } else if (fileBackedTasksManager.epicTasks.containsKey(TaskId)) {
+                    fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.epicTasks.get(TaskId));
+                } else if (fileBackedTasksManager.subTasks.containsKey(TaskId)) {
+                    fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.subTasks.get(TaskId));
                 }
             }
         } catch (IOException e) {
@@ -247,4 +247,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
         return historyLoaded;
     }
-}
+   }

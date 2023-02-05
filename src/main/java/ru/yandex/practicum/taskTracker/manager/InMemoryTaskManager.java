@@ -105,16 +105,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Long saveSubTask(SubTask subTask) {
-        if (epicTasks.containsKey(subTask.getEpicTaskID())) {
+        if (epicTasks.containsKey(subTask.getEpicTaskId())) {
             if (collisionCheck(subTask)) {
                 return -1L;
             }
             subTask.setId(generateId());
             subTask.setStatus(TaskStatus.NEW);
             subTasks.put(subTask.getId(), subTask);
-            epicTasks.get(subTask.getEpicTaskID()).getSubTasksOfEpicList().add(subTask.getId());
-            checkEpicStatus(subTask.getEpicTaskID());
-            calculateEpicStartTimeAndDuration(subTask.getEpicTaskID());
+            epicTasks.get(subTask.getEpicTaskId()).getSubTasksOfEpicList().add(subTask.getId());
+            checkEpicStatus(subTask.getEpicTaskId());
+            calculateEpicStartTimeAndDuration(subTask.getEpicTaskId());
         } else {
             return -2L;
         }
@@ -123,8 +123,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask subTask) {
-        if (subTasks.containsKey(subTask.getId()) && epicTasks.containsKey(subTask.getEpicTaskID())) {
-            if (Objects.equals(subTask.getEpicTaskID(), subTasks.get(subTask.getId()).getEpicTaskID())) {
+        if (subTasks.containsKey(subTask.getId()) && epicTasks.containsKey(subTask.getEpicTaskId())) {
+            if (Objects.equals(subTask.getEpicTaskId(), subTasks.get(subTask.getId()).getEpicTaskId())) {
                 if ((subTask.getStartTime() != null) && (subTask.getDuration() != null)) {
                     SubTask taskReserved = subTasks.get(subTask.getId());
                     if ((taskReserved.getStartTime() != null) && (taskReserved.getDuration() != null)) {
@@ -145,8 +145,8 @@ public class InMemoryTaskManager implements TaskManager {
                 }
                 Long id = subTask.getId();
                 subTasks.replace(id, subTask);
-                checkEpicStatus(subTask.getEpicTaskID());
-                calculateEpicStartTimeAndDuration(subTask.getEpicTaskID());
+                checkEpicStatus(subTask.getEpicTaskId());
+                calculateEpicStartTimeAndDuration(subTask.getEpicTaskId());
             }
         }
     }
@@ -197,7 +197,7 @@ public class InMemoryTaskManager implements TaskManager {
                     priority.remove(taskForDelete);
                 }
             }
-            Long epicId = subTasks.get(subTaskId).getEpicTaskID();
+            Long epicId = subTasks.get(subTaskId).getEpicTaskId();
             subTasks.remove(subTaskId);
             epicTasks.get(epicId).getSubTasksOfEpicList().remove(subTaskId);
             checkEpicStatus(epicId);
@@ -215,7 +215,7 @@ public class InMemoryTaskManager implements TaskManager {
             int numberOfDoneSubTasks = 0;
             Map<Long, SubTask> subList = new HashMap<>();
             for (SubTask subTask : subTasks.values()) {
-                if (subTask.getEpicTaskID() == epicTaskId) {
+                if (subTask.getEpicTaskId() == epicTaskId) {
                     subList.put(subTask.getId(), subTask);
                 }
             }
@@ -315,7 +315,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> showSubTasksOfEpic(Long epicTaskId) {
         List<SubTask> subList = new ArrayList<>();
         for (SubTask subTask : subTasks.values()) {
-            if (subTask.getEpicTaskID() == epicTaskId) {
+            if (subTask.getEpicTaskId() == epicTaskId) {
                 subList.add(subTask);
             }
         }

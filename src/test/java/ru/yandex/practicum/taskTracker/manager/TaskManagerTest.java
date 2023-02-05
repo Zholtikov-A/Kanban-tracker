@@ -45,32 +45,32 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         duration5H = Duration.ofHours(5);
 
         simpleTaskId1 = taskManager.saveSimpleTask(
-                new Task("First SimpleTask", "SimpleTask(ID=1) without DateTime"));
+                new Task("First SimpleTask", "SimpleTask(Id=1) without DateTime"));
         simpleTaskId2 = taskManager.saveSimpleTask(
-                new Task("Second SimpleTask", "SimpleTask(ID=2) with DateTime", testStartTime1, duration10H));
+                new Task("Second SimpleTask", "SimpleTask(Id=2) with DateTime", testStartTime1, duration10H));
         epicTaskId3 = taskManager.saveEpicTask(
-                new EpicTask("First EpicTask", "EpicTask(ID=3) with DateTime"));
+                new EpicTask("First EpicTask", "EpicTask(Id=3) with DateTime"));
         subTaskId4 = taskManager.saveSubTask(
-                new SubTask("First SubTask", "SubTask(ID=4) of first EpicTask(ID=3) with DateTime",
+                new SubTask("First SubTask", "SubTask(Id=4) of first EpicTask(Id=3) with DateTime",
                         testStartTime2, duration2H, epicTaskId3));
         subTaskId5 = taskManager.saveSubTask(
-                new SubTask("Second SubTask", "SubTask(ID=5) of first EpicTask(ID=3) with DateTime",
+                new SubTask("Second SubTask", "SubTask(Id=5) of first EpicTask(Id=3) with DateTime",
                         testStartTime3, duration5H, epicTaskId3));
         epicTaskId6 = taskManager.saveEpicTask(
-                new EpicTask("Second EpicTask", "EpicTask(ID=6 without DateTime)"));
+                new EpicTask("Second EpicTask", "EpicTask(Id=6 without DateTime)"));
         subTaskId7 = taskManager.saveSubTask(
-                new SubTask("Third SubTask", "SubTask(ID=7) of first EpicTask(ID=6) without DateTime", epicTaskId6));
+                new SubTask("Third SubTask", "SubTask(Id=7) of first EpicTask(Id=6) without DateTime", epicTaskId6));
     }
 
     @Test
     void saveSimpleTaskSuccessfulCreationNewSimpleTaskWithDateTime() {
         taskManager.removeAllSimpleTasks();
         Task simpleTask = new Task(
-                "Second SimpleTask", "SimpleTask(ID=2) with DateTime", testStartTime1, duration10H);
+                "Second SimpleTask", "SimpleTask(Id=2) with DateTime", testStartTime1, duration10H);
         final Long simpleTaskId8 = taskManager.saveSimpleTask(simpleTask);
         Task expectedSimpleTask = new Task(
                 simpleTaskId8, TaskType.TASK, "Second SimpleTask", TaskStatus.NEW,
-                "SimpleTask(ID=2) with DateTime", testStartTime1, duration10H);
+                "SimpleTask(Id=2) with DateTime", testStartTime1, duration10H);
         final Task savedSimpleTask = taskManager.getSimpleTaskById(simpleTaskId8);
         assertNotNull(savedSimpleTask, "Задача не найдена.");
         assertEquals(simpleTask, savedSimpleTask, "Задачи не совпадают.");
@@ -92,7 +92,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void saveSimpleCreationFailTaskDateTimeCollisionTroubleReturnIdMinus1() {
         taskManager.removeAllSimpleTasks();
-        Task simpleTask = new Task("Second SimpleTask", "SimpleTask(ID=8) with DateTime", testStartTime1,
+        Task simpleTask = new Task("Second SimpleTask", "SimpleTask(Id=8) with DateTime", testStartTime1,
                 duration10H);
         final Long simpleTaskId8 = taskManager.saveSimpleTask(simpleTask);
         final Long collisionFailIdMinus1 = taskManager.saveSimpleTask(simpleTask);
@@ -106,7 +106,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSimpleTaskSuccessfulUpdateSimpleTaskWithDateTime() {
         taskManager.removeSimpleTaskById(simpleTaskId1);
         Task expectedSimpleTask = new Task(simpleTaskId2, TaskType.TASK, "Second SimpleTask",
-                TaskStatus.IN_PROGRESS, "SimpleTask(ID=2) with DateTime", testStartTime1Plus15m, duration10H);
+                TaskStatus.IN_PROGRESS, "SimpleTask(Id=2) with DateTime", testStartTime1Plus15m, duration10H);
         taskManager.updateSimpleTask(expectedSimpleTask);
         final Task updatedSimpleTask = taskManager.getSimpleTaskById(simpleTaskId2);
         assertNotNull(updatedSimpleTask, "Задача не найдена.");
@@ -131,7 +131,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Task initialSimpleTask = taskManager.getSimpleTaskById(simpleTaskId2);
         LocalDateTime occupiedStartTime = taskManager.getSubTaskById(subTaskId4).getStartTime();
         Task expectedSimpleTask = new Task(simpleTaskId2, TaskType.TASK, "Second SimpleTask", TaskStatus.IN_PROGRESS,
-                "SimpleTask(ID=2) with DateTime Collision Trouble", occupiedStartTime, duration10H);
+                "SimpleTask(Id=2) with DateTime Collision Trouble", occupiedStartTime, duration10H);
         taskManager.updateSimpleTask(expectedSimpleTask);
         final Task updatedSimpleTask = taskManager.getSimpleTaskById(simpleTaskId2);
         assertNotNull(updatedSimpleTask, "Задача не найдена.");
@@ -146,7 +146,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSimpleTaskFailInCauseOfWrongId() {
         final List<Task> initialSimpleTasks = taskManager.showSimpleTasks();
         Task expectedSimpleTask = new Task(0L, TaskType.TASK, "Second SimpleTask", TaskStatus.IN_PROGRESS,
-                "SimpleTask(ID=0) with free ID", testStartTime1Plus15m, duration10H);
+                "SimpleTask(Id=0) with free ID", testStartTime1Plus15m, duration10H);
         taskManager.updateSimpleTask(expectedSimpleTask);
         final Task updatedTaskExpectedIdZero = taskManager.getSimpleTaskById(0L);
         assertNull(updatedTaskExpectedIdZero, "Обновленная задача с не существовавшим ранее ID сохранена.");
@@ -159,7 +159,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSimpleTaskFailInCauseOfIdOfWrongTaskType() {
         final List<Task> initialSimpleTasks = taskManager.showSimpleTasks();
         Task expectedSimpleTask = new Task(subTaskId4, TaskType.TASK, "Second SimpleTask", TaskStatus.IN_PROGRESS,
-                "SimpleTask(ID=0) with free ID", testStartTime1Plus15m, duration10H);
+                "SimpleTask(Id=0) with free ID", testStartTime1Plus15m, duration10H);
         taskManager.updateSimpleTask(expectedSimpleTask);
         final Task updatedTaskExpectedId4 = taskManager.getSimpleTaskById(subTaskId4);
         assertNull(updatedTaskExpectedId4, "Обновленная задача с ID задачи другого типа сохранена.");
@@ -172,7 +172,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSimpleTaskFailInCauseOfEmptyId() {
         final List<Task> initialSimpleTasks = taskManager.showSimpleTasks();
         Task expectedSimpleTask = new Task(null, TaskType.TASK, "Second SimpleTask", TaskStatus.IN_PROGRESS,
-                "SimpleTask(ID=0) with free ID", testStartTime1Plus15m, duration10H);
+                "SimpleTask(Id=0) with free ID", testStartTime1Plus15m, duration10H);
         taskManager.updateSimpleTask(expectedSimpleTask);
         final Task updatedTaskExpectedIdNull = taskManager.getSimpleTaskById(null);
         assertNull(updatedTaskExpectedIdNull, "Обновленная задача без ID сохранена.");
@@ -184,7 +184,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void showSimpleTasksSuccessfulReturnListOfTasks() {
         Task expectedSimpleTask = new Task(simpleTaskId2, TaskType.TASK, "Second SimpleTask", TaskStatus.NEW,
-                "SimpleTask(ID=2) with DateTime", testStartTime1, duration10H);
+                "SimpleTask(Id=2) with DateTime", testStartTime1, duration10H);
         final List<Task> testSimpleTasks = taskManager.showSimpleTasks();
         assertNotNull(testSimpleTasks, "Задачи нe возвращаются.");
         assertEquals(2, testSimpleTasks.size(), "Неверное количество задач.");
@@ -227,7 +227,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void getSimpleTaskByIdSuccessfulReturnSimpleTask() {
         Task expectedSimpleTask = new Task(simpleTaskId2, TaskType.TASK, "Second SimpleTask", TaskStatus.NEW,
-                "SimpleTask(ID=2) with DateTime", testStartTime1, duration10H);
+                "SimpleTask(Id=2) with DateTime", testStartTime1, duration10H);
         final Task savedSimpleTask = taskManager.getSimpleTaskById(simpleTaskId2);
         assertNotNull(savedSimpleTask, "Задача не найдена.");
         assertEquals(expectedSimpleTask, savedSimpleTask, "Задачи не совпадают.");
@@ -295,23 +295,23 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void saveSubTaskSuccessfulCreationNewSubTaskWithDateTime() {
         taskManager.removeAllSubTasks();
-        SubTask subTask = new SubTask("First SubTask", "SubTask(ID=8) of first EpicTask(ID=3) with DateTime",
+        SubTask subTask = new SubTask("First SubTask", "SubTask(Id=8) of first EpicTask(Id=3) with DateTime",
                 testStartTime2, duration2H, epicTaskId3);
         final Long subTaskId8 = taskManager.saveSubTask(subTask);
         final SubTask savedSubTask = taskManager.getSubTaskById(subTaskId8);
         SubTask expectedSubTask = new SubTask(subTaskId8, TaskType.SUBTASK, "First SubTask", TaskStatus.NEW,
-                "SubTask(ID=8) of first EpicTask(ID=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
-        assertNotNull(taskManager.getEpicTaskById(savedSubTask.getEpicTaskID()), "EpicTask  отсутствует.");
+                "SubTask(Id=8) of first EpicTask(Id=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
+        assertNotNull(taskManager.getEpicTaskById(savedSubTask.getEpicTaskId()), "EpicTask  отсутствует.");
         assertNotNull(savedSubTask, "Задача не найдена.");
         assertEquals(subTask, savedSubTask, "Задачи не совпадают.");
         assertEquals(expectedSubTask, savedSubTask, "Задачи не совпадают.");
-        assertTrue(taskManager.getEpicTaskById(savedSubTask.getEpicTaskID()).getSubTasksOfEpicList().contains(savedSubTask.getId()),
+        assertTrue(taskManager.getEpicTaskById(savedSubTask.getEpicTaskId()).getSubTasksOfEpicList().contains(savedSubTask.getId()),
                 "Задача не добавлена в subTasksOfEpicList.");
         final List<SubTask> testSubTasks = taskManager.showSubTasks();
         assertNotNull(testSubTasks, "Задачи нe возвращаются.");
         assertEquals(1, testSubTasks.size(), "Неверное количество задач.");
         assertEquals(subTask, testSubTasks.get(0), "Задачи не совпадают.");
-        final List<Long> testSubTasksOfEpic = taskManager.getEpicTaskById(savedSubTask.getEpicTaskID()).getSubTasksOfEpicList();
+        final List<Long> testSubTasksOfEpic = taskManager.getEpicTaskById(savedSubTask.getEpicTaskId()).getSubTasksOfEpicList();
         assertEquals(1, testSubTasksOfEpic.size(), "Неверное количество задач.");
         assertEquals(subTask, taskManager.getSubTaskById(testSubTasksOfEpic.get(0)), "Задачи не совпадают.");
         assertNotNull(taskManager.getSubTaskById(subTaskId8).getStartTime(), "Отсутствует время начала задачи.");
@@ -320,7 +320,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                 "Время начала задач не совпадает.");
         assertEquals(taskManager.getSubTaskById(subTaskId8).getDuration(), duration2H,
                 "Длительность задач не совпадает.");
-        SubTask subTask2 = new SubTask("Second SubTask", "SubTask(ID=9) of first EpicTask(ID=3) with DateTime",
+        SubTask subTask2 = new SubTask("Second SubTask", "SubTask(Id=9) of first EpicTask(Id=3) with DateTime",
                 testStartTime3, duration5H, epicTaskId3);
         final Long subTaskId9 = taskManager.saveSubTask(subTask2);
         LocalDateTime epicStartTime;
@@ -342,7 +342,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void saveSubTaskCreationFailTaskDateTimeCollisionTroubleReturnIdMinus1L() {
         taskManager.removeAllSubTasks();
-        SubTask subTask = new SubTask("First SubTask", "SubTask(ID=8) of first EpicTask(ID=3) with DateTime",
+        SubTask subTask = new SubTask("First SubTask", "SubTask(Id=8) of first EpicTask(Id=3) with DateTime",
                 testStartTime2, duration2H, epicTaskId3);
         final Long subTaskId8 = taskManager.saveSubTask(subTask);
         final Long collisionFailIdMinus1 = taskManager.saveSubTask(subTask);
@@ -358,11 +358,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void saveSubTaskFailNoSuchEpicTaskReturnIdMinus2L() {
         taskManager.removeAllEpicTasks();
-        SubTask subTask = new SubTask("First SubTask", "SubTask(ID=8) of first EpicTask(ID=3) with DateTime",
+        SubTask subTask = new SubTask("First SubTask", "SubTask(Id=8) of first EpicTask(Id=3) with DateTime",
                 testStartTime2, duration2H, epicTaskId3);
         final Long noSuchEpicFailIdMinus2 = taskManager.saveSubTask(subTask);
         final SubTask savedSubTask = taskManager.getSubTaskById(noSuchEpicFailIdMinus2);
-        assertNull(taskManager.getEpicTaskById(subTask.getEpicTaskID()), "По запрашиваемому ID возвращается Epic.");
+        assertNull(taskManager.getEpicTaskById(subTask.getEpicTaskId()), "По запрашиваемому ID возвращается Epic.");
         assertNotEquals(subTask, savedSubTask, "Задачи не совпадают.");
         assertNull(taskManager.getSubTaskById(noSuchEpicFailIdMinus2), "SubTask создана вопреки отсутствию EpicTask");
         assertEquals(-2L, noSuchEpicFailIdMinus2,
@@ -377,7 +377,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSubTaskSuccessfulUpdateSubTaskWithDateTime() {
         final TaskStatus initialEpicStatus = taskManager.getEpicTaskById(epicTaskId3).getStatus();
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=4) of first EpicTask(ID=3) with DateTime", testStartTime2Plus15m, duration2H, epicTaskId3);
+                "SubTask(Id=4) of first EpicTask(Id=3) with DateTime", testStartTime2Plus15m, duration2H, epicTaskId3);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTask = taskManager.getSubTaskById(subTaskId4);
         assertNotNull(updatedSubTask, "Задача не найдена.");
@@ -418,7 +418,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         SubTask initialSubTask = taskManager.getSubTaskById(subTaskId4);
         LocalDateTime occupiedStartTime = taskManager.getSimpleTaskById(simpleTaskId2).getStartTime();
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=4) of first EpicTask(ID=3) with DateTime", occupiedStartTime, duration2H, epicTaskId3);
+                "SubTask(Id=4) of first EpicTask(Id=3) with DateTime", occupiedStartTime, duration2H, epicTaskId3);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTask = taskManager.getSubTaskById(subTaskId4);
         assertNotNull(updatedSubTask, "Задача не найдена.");
@@ -433,9 +433,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSubTaskFailNoSuchEpic() {
         final List<SubTask> initialSubTasks = taskManager.showSubTasks();
         SubTask initialSubTask = taskManager.getSubTaskById(subTaskId4);
-        final List<Long> subTasksOfEpicId3 = taskManager.getEpicTaskById(initialSubTask.getEpicTaskID()).getSubTasksOfEpicList();
+        final List<Long> subTasksOfEpicId3 = taskManager.getEpicTaskById(initialSubTask.getEpicTaskId()).getSubTasksOfEpicList();
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=4) of first EpicTask(ID=0) with DateTime", testStartTime2Plus15m, duration2H, 0L);
+                "SubTask(Id=4) of first EpicTask(Id=0) with DateTime", testStartTime2Plus15m, duration2H, 0L);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTask = taskManager.getSubTaskById(subTaskId4);
         assertNotNull(updatedSubTask, "Задача не найдена.");
@@ -444,7 +444,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         final List<SubTask> testSubTasks = taskManager.showSubTasks();
         assertNotNull(testSubTasks, "Задачи нe возвращаются.");
         assertEquals(3, testSubTasks.size(), "Неверное количество задач.");
-        final List<Long> newSubTasksOfEpicId3 = taskManager.getEpicTaskById(initialSubTask.getEpicTaskID()).getSubTasksOfEpicList();
+        final List<Long> newSubTasksOfEpicId3 = taskManager.getEpicTaskById(initialSubTask.getEpicTaskId()).getSubTasksOfEpicList();
         assertEquals(subTasksOfEpicId3, newSubTasksOfEpicId3, "Изменен список подзадач EpicTask.");
         assertEquals(3, testSubTasks.size(), "Неверное количество задач.");
         assertEquals(initialSubTasks, testSubTasks, "Списки задач отличаются.");
@@ -457,7 +457,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         final List<Long> subTasksOfEpicId6 = taskManager.getEpicTaskById(epicTaskId6).getSubTasksOfEpicList();
         SubTask initialSubTask = taskManager.getSubTaskById(subTaskId4);
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=4) of first EpicTask(ID=6) with DateTime", testStartTime2Plus15m, duration2H, epicTaskId6);
+                "SubTask(Id=4) of first EpicTask(Id=6) with DateTime", testStartTime2Plus15m, duration2H, epicTaskId6);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTask = taskManager.getSubTaskById(subTaskId4);
         assertNotNull(updatedSubTask, "Задача не найдена.");
@@ -478,7 +478,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSubTaskFailInCauseOfWrongId() {
         final List<SubTask> initialSubTasks = taskManager.showSubTasks();
         SubTask expectedSubTask = new SubTask(0L, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=0) with free ID", testStartTime2Plus15m, duration2H, epicTaskId3);
+                "SubTask(Id=0) with free ID", testStartTime2Plus15m, duration2H, epicTaskId3);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTaskExpectedIdZero = taskManager.getSubTaskById(0L);
         assertNull(updatedSubTaskExpectedIdZero, "Обновленная задача с не существовавшим ранее ID сохранена.");
@@ -491,7 +491,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSubTaskFailInCauseOfIdOfWrongTaskType() {
         final List<SubTask> initialSubTasks = taskManager.showSubTasks();
         SubTask expectedSubTask = new SubTask(simpleTaskId2, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=0) with wrong ID", testStartTime2Plus15m, duration2H, epicTaskId3);
+                "SubTask(Id=0) with wrong ID", testStartTime2Plus15m, duration2H, epicTaskId3);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTaskExpectedId2 = taskManager.getSubTaskById(simpleTaskId2);
         assertNull(updatedSubTaskExpectedId2, "Обновленная задача с ID задачи другого типа сохранена.");
@@ -504,7 +504,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void updateSubTaskFailInCauseOfEmptyId() {
         final List<SubTask> initialSubTasks = taskManager.showSubTasks();
         SubTask expectedSubTask = new SubTask(null, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=0) with empty ID", testStartTime2Plus15m, duration2H, epicTaskId3);
+                "SubTask(Id=0) with empty ID", testStartTime2Plus15m, duration2H, epicTaskId3);
         taskManager.updateSubTask(expectedSubTask);
         final SubTask updatedSubTaskExpectedId2 = taskManager.getSubTaskById(null);
         assertNull(updatedSubTaskExpectedId2, "Обновленная задача без ID сохранена.");
@@ -516,7 +516,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void showSubTasksSuccessfulReturnListOfSubTasks() {
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.NEW,
-                "SubTask(ID=4) of first EpicTask(ID=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
+                "SubTask(Id=4) of first EpicTask(Id=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
         final List<SubTask> testSubTasks = taskManager.showSubTasks();
         assertNotNull(testSubTasks, "Задачи нe возвращаются.");
         assertEquals(3, testSubTasks.size(), "Неверное количество задач.");
@@ -575,7 +575,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void getSubTaskByIdSuccessfullyReturnSubTask() {
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.NEW,
-                "SubTask(ID=4) of first EpicTask(ID=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
+                "SubTask(Id=4) of first EpicTask(Id=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
         final SubTask savedSubTask = taskManager.getSubTaskById(subTaskId4);
         assertNotNull(savedSubTask, "Задача не найдена.");
         assertEquals(expectedSubTask, savedSubTask, "Задачи не совпадают.");
@@ -602,10 +602,10 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void removeSubTaskByIdSuccessfullyRemovedSubTask() {
         taskManager.updateSubTask(new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=4) of first EpicTask(ID=3) with DateTime", testStartTime2Plus15m, duration2H, epicTaskId3));
+                "SubTask(Id=4) of first EpicTask(Id=3) with DateTime", testStartTime2Plus15m, duration2H, epicTaskId3));
         taskManager.updateSubTask(new SubTask(subTaskId5, TaskType.SUBTASK, "Second SubTask", TaskStatus.DONE,
-                "SubTask(ID=5) of first EpicTask(ID=3) with DateTime", testStartTime3Minus15m, duration2H, epicTaskId3));
-        final Long epicId = taskManager.getSubTaskById(subTaskId4).getEpicTaskID();
+                "SubTask(Id=5) of first EpicTask(Id=3) with DateTime", testStartTime3Minus15m, duration2H, epicTaskId3));
+        final Long epicId = taskManager.getSubTaskById(subTaskId4).getEpicTaskId();
         assertEquals(2, taskManager.getEpicTaskById(epicId).getSubTasksOfEpicList().size(),
                 "Неверное количество задач.");
         final TaskStatus initialEpicStatus = taskManager.getEpicTaskById(epicId).getStatus();
@@ -671,10 +671,10 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void saveEpicTaskSuccessfulCreationNewEpicTask() {
         taskManager.removeAllEpicTasks();
-        EpicTask epicTask = new EpicTask("First EpicTask", "EpicTask(ID=7)");
+        EpicTask epicTask = new EpicTask("First EpicTask", "EpicTask(Id=7)");
         final Long epicTaskId8 = taskManager.saveEpicTask(epicTask);
         EpicTask expectedEpicTask = new EpicTask(
-                epicTaskId8, TaskType.EPIC, "First EpicTask", TaskStatus.NEW, "EpicTask(ID=7)");
+                epicTaskId8, TaskType.EPIC, "First EpicTask", TaskStatus.NEW, "EpicTask(Id=7)");
         final EpicTask savedEpicTask = taskManager.getEpicTaskById(epicTaskId8);
         assertNotNull(savedEpicTask, "Задача не найдена.");
         assertEquals(epicTask, savedEpicTask, "Задачи не совпадают.");
@@ -692,9 +692,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateEpicTaskSuccessfulUpdateEpicTask() {
         SubTask expectedSubTask = new SubTask(subTaskId7, TaskType.SUBTASK, "First SubTask", TaskStatus.IN_PROGRESS,
-                "SubTask(ID=6) of first EpicTask(ID=6)", epicTaskId6);
+                "SubTask(Id=6) of first EpicTask(Id=6)", epicTaskId6);
         taskManager.updateSubTask(expectedSubTask);
-        EpicTask expectedEpicTask = new EpicTask(epicTaskId6, "Second EpicTask", "EpicTask(ID=6 without DateTime)");
+        EpicTask expectedEpicTask = new EpicTask(epicTaskId6, "Second EpicTask", "EpicTask(Id=6 without DateTime)");
         taskManager.updateEpicTask(expectedEpicTask);
         final EpicTask updatedEpicTask = taskManager.getEpicTaskById(epicTaskId6);
         assertNotNull(updatedEpicTask, "Задача не найдена.");
@@ -710,7 +710,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateEpicTaskFailInCauseOfWrongId() {
         final List<EpicTask> initialEpicTasks = taskManager.showEpicTasks();
-        EpicTask expectedEpicTask = new EpicTask(0L, "Second EpicTask", "EpicTask(ID=6 without DateTime)");
+        EpicTask expectedEpicTask = new EpicTask(0L, "Second EpicTask", "EpicTask(Id=6 without DateTime)");
         taskManager.updateEpicTask(expectedEpicTask);
         final Task updatedTaskExpectedIdZero = taskManager.getEpicTaskById(0L);
         assertNull(updatedTaskExpectedIdZero, "Обновленная задача с не существовавшим ранее ID сохранена.");
@@ -722,7 +722,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateEpicTaskFailInCauseOfWrongTaskType() {
         final List<EpicTask> initialEpicTasks = taskManager.showEpicTasks();
-        EpicTask expectedEpicTask = new EpicTask(simpleTaskId2, "Second EpicTask", "EpicTask(ID=6 without DateTime)");
+        EpicTask expectedEpicTask = new EpicTask(simpleTaskId2, "Second EpicTask", "EpicTask(Id=6 without DateTime)");
         taskManager.updateEpicTask(expectedEpicTask);
         final Task updatedTaskExpectedId4 = taskManager.getEpicTaskById(simpleTaskId2);
         assertNull(updatedTaskExpectedId4, "Обновленная задача с ID задачи другого типа сохранена.");
@@ -734,7 +734,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void updateEpicTaskFailInCauseOfEmptyId() {
         final List<EpicTask> initialEpicTasks = taskManager.showEpicTasks();
-        EpicTask expectedEpicTask = new EpicTask(null, "Second EpicTask", "EpicTask(ID=6 without DateTime)");
+        EpicTask expectedEpicTask = new EpicTask(null, "Second EpicTask", "EpicTask(Id=6 without DateTime)");
         taskManager.updateEpicTask(expectedEpicTask);
         final Task updatedTaskExpectedId4 = taskManager.getEpicTaskById(null);
         assertNull(updatedTaskExpectedId4, "Обновленная задача без ID сохранена.");
@@ -747,7 +747,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void showEpicTasksSuccessfulReturnListOfEpicTasks() {
         taskManager.removeSubTaskById(subTaskId7); //наличие сабтаски мешает equals
         EpicTask expectedEpicTask = new EpicTask(epicTaskId6, TaskType.EPIC, "Second EpicTask", TaskStatus.NEW,
-                "EpicTask(ID=6 without DateTime)");
+                "EpicTask(Id=6 without DateTime)");
         final List<EpicTask> testEpicTasks = taskManager.showEpicTasks();
         assertNotNull(testEpicTasks, "Задачи нe возвращаются.");
         assertEquals(2, testEpicTasks.size(), "Неверное количество задач.");
@@ -799,7 +799,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void getEpicTaskByIdIdSuccessfulReturnEpicTask() {
         taskManager.removeSubTaskById(subTaskId7); //наличие сабтаски мешает equals
         EpicTask expectedEpicTask = new EpicTask(epicTaskId6, TaskType.EPIC, "Second EpicTask", TaskStatus.NEW,
-                "EpicTask(ID=6 without DateTime)");
+                "EpicTask(Id=6 without DateTime)");
         final EpicTask savedEpicTask = taskManager.getEpicTaskById(epicTaskId6);
         assertNotNull(savedEpicTask, "Задача не найдена.");
         assertEquals(expectedEpicTask, savedEpicTask, "Задачи не совпадают.");
@@ -882,7 +882,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     void showSubTasksOfEpicSuccessfulReturnSubTasksOfEpicList() {
         taskManager.removeEpicTaskById(epicTaskId6);
         SubTask expectedSubTask = new SubTask(subTaskId4, TaskType.SUBTASK, "First SubTask", TaskStatus.NEW,
-                "SubTask(ID=4) of first EpicTask(ID=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
+                "SubTask(Id=4) of first EpicTask(Id=3) with DateTime", testStartTime2, duration2H, epicTaskId3);
         final List<SubTask> testSubTasks = taskManager.showSubTasks();
         final List<Long> epicSubTasks = taskManager.getEpicTaskById(epicTaskId3).getSubTasksOfEpicList();
         assertEquals(testSubTasks.size(), epicSubTasks.size(), "Неверное количество задач.");

@@ -6,36 +6,36 @@ import java.util.Objects;
 
 public class SubTask extends Task {
 
-    private Long epicTaskID;
+    private Long epicTaskId;
 
-    public SubTask(String name, String description, Long epicTaskID) {
+    public SubTask(String name, String description, Long epicTaskId) {
         super(name, description);
-        this.epicTaskID = epicTaskID;
+        this.epicTaskId = epicTaskId;
         this.setType(TaskType.SUBTASK);
     }
 
-    public SubTask(Long id, TaskType type, String name, TaskStatus status, String description, Long epicTaskID) {
+    public SubTask(Long id, TaskType type, String name, TaskStatus status, String description, Long epicTaskId) {
         super(id, type, name, status, description);
-        this.epicTaskID = epicTaskID;
+        this.epicTaskId = epicTaskId;
     }
 
-    public SubTask(String name, String description, LocalDateTime startTime, Duration duration, Long epicTaskID) {
+    public SubTask(String name, String description, LocalDateTime startTime, Duration duration, Long epicTaskId) {
         super(name, description, startTime, duration);
-        this.epicTaskID = epicTaskID;
+        this.epicTaskId = epicTaskId;
         this.setType(TaskType.SUBTASK);
     }
 
-    public SubTask(Long id, TaskType type, String name, TaskStatus status, String description, LocalDateTime startTime, Duration duration, Long epicTaskID) {
+    public SubTask(Long id, TaskType type, String name, TaskStatus status, String description, LocalDateTime startTime, Duration duration, Long epicTaskId) {
         super(id, type, name, status, description, startTime, duration);
-        this.epicTaskID = epicTaskID;
+        this.epicTaskId = epicTaskId;
     }
 
-    public Long getEpicTaskID() {
-        return epicTaskID;
+    public Long getEpicTaskId() {
+        return epicTaskId;
     }
 
-    public void setEpicTaskID(Long epicTaskID) {
-        this.epicTaskID = epicTaskID;
+    public void setEpicTaskId(Long epicTaskId) {
+        this.epicTaskId = epicTaskId;
     }
 
     @Override
@@ -44,11 +44,11 @@ public class SubTask extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SubTask subTask = (SubTask) o;
-        return Objects.equals(epicTaskID, subTask.epicTaskID);
+        return Objects.equals(epicTaskId, subTask.epicTaskId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), epicTaskID);
+        return Objects.hash(super.hashCode(), epicTaskId);
     }
 }
