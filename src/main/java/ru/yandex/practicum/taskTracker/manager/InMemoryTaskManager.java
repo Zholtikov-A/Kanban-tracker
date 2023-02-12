@@ -9,7 +9,7 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private Long newTaskId = 0L;
+    protected Long newTaskId = 0L;
     private HistoryManager inMemoryHistoryManager = Managers.getDefaultHistory();
     protected Map<Long, Task> simpleTasks = new HashMap<>();
     protected Map<Long, SubTask> subTasks = new HashMap<>();
@@ -34,9 +34,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSimpleTask(Task task) {
+        Task taskReserved = simpleTasks.get(task.getId());
         if ((task.getStartTime() != null) && (task.getDuration() != null)) {
             if (simpleTasks.containsKey(task.getId())) {
-                Task taskReserved = simpleTasks.get(task.getId());
                 if ((taskReserved.getStartTime() != null) && (taskReserved.getDuration() != null)) {
                     LocalDateTime checkTime = taskReserved.getStartTime();
                     while (checkTime.isBefore(taskReserved.getEndTime())) {
@@ -55,6 +55,9 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         simpleTasks.replace(task.getId(), task);
+        if (getHistory().contains(taskReserved)) {
+            inMemoryHistoryManager.updateHistory(task);
+        }
     }
 
     @Override
@@ -123,10 +126,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask subTask) {
+        SubTask taskReserved = subTasks.get(subTask.getId());
         if (subTasks.containsKey(subTask.getId()) && epicTasks.containsKey(subTask.getEpicTaskId())) {
             if (Objects.equals(subTask.getEpicTaskId(), subTasks.get(subTask.getId()).getEpicTaskId())) {
                 if ((subTask.getStartTime() != null) && (subTask.getDuration() != null)) {
-                    SubTask taskReserved = subTasks.get(subTask.getId());
                     if ((taskReserved.getStartTime() != null) && (taskReserved.getDuration() != null)) {
                         LocalDateTime checkTime = taskReserved.getStartTime();
                         while (checkTime.isBefore(taskReserved.getEndTime())) {
@@ -148,6 +151,9 @@ public class InMemoryTaskManager implements TaskManager {
                 checkEpicStatus(subTask.getEpicTaskId());
                 calculateEpicStartTimeAndDuration(subTask.getEpicTaskId());
             }
+        }
+        if (getHistory().contains(taskReserved)) {
+            inMemoryHistoryManager.updateHistory(subTask);
         }
     }
 
@@ -249,11 +255,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateEpicTask(EpicTask epicTask) {
         if (epicTasks.containsKey(epicTask.getId())) {
+            EpicTask epicTaskReserved = epicTasks.get(epicTask.getId());
             Long id = epicTask.getId();
             TaskStatus status = epicTasks.get(id).getStatus();
             epicTask.setStatus(status);
             epicTask.setType(TaskType.EPIC);
             epicTasks.replace(id, epicTask);
+            if (getHistory().contains(epicTaskReserved)) {
+                inMemoryHistoryManager.updateHistory(epicTask);
+            }
         }
     }
 
@@ -391,5 +401,33 @@ public class InMemoryTaskManager implements TaskManager {
         priority.add(task);
         return isCollision;
     }
+
+    public Task findTask(Long id) {
+        for (Task task : simpleTasks.values()) {
+            if (id == task.getId()) {
+                return task;
+            }
+        }
+
+        for (SubTask subTask : subTasks.values()) {
+            if (id == subTask.getId()) {
+                return subTask;
+            }
+        }
+
+        for (EpicTask epicTask : epicTasks.values()) {
+            if (id == epicTask.getId()) {
+                return epicTask;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        return inMemoryHistoryManager.getHistory();
+    }
+
 }
 

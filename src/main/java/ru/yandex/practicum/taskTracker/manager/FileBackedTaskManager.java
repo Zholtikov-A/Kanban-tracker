@@ -118,7 +118,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
-    public void save() {
+    protected void save() {
         try (Writer fileWriter = new FileWriter("src/main/java/ru/yandex/practicum/taskTracker/dataStorage/FileManager.csv")) {
             fileWriter.write("id,type,name,status,description,epic" + "\n");
 
@@ -247,4 +247,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
         return historyLoaded;
     }
-   }
+}

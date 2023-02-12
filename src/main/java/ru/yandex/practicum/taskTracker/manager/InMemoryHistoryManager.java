@@ -23,6 +23,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
+    public void updateHistory(Task task){
+        Node node = historyAccess.get(task.getId());
+        node.data = task;
+    }
+
+    @Override
     public void remove(Long id) {
         if (historyAccess.containsKey(id)) {
             removeNode(historyAccess.get(id));
@@ -50,7 +56,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private List<Task> getTasks() {
         if (historyAccess.isEmpty()) {
-            return null;
+            return new ArrayList<Task>();
         }
         List<Task> newList = new ArrayList<>();
         Node<Task> currentNode = head;
