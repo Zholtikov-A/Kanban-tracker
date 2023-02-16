@@ -14,8 +14,6 @@ public class KVTaskClient {
     private final String apiToken;
 
     public KVTaskClient(String url) {
-        int port = 8078;
-        url = "http://localhost:" + port + "/";
         this.url = url;
         apiToken = register(url);
     }
@@ -32,8 +30,8 @@ public class KVTaskClient {
                 throw new ManagerSaveException("Can't do save request, status code:" + response.statusCode());
             }
             return response.body();
-        } catch (IOException | InterruptedException e) {
-            throw new ManagerSaveException("Can't do save request: " + e);
+        } catch (IOException | InterruptedException exception) {
+            throw new ManagerSaveException("Can't do save request: " + exception);
         }
     }
 
@@ -48,8 +46,8 @@ public class KVTaskClient {
             if (response.statusCode() != 200) {
                 throw new ManagerSaveException("Can't do save request, status code:" + response.statusCode());
             }
-        } catch (IOException | InterruptedException e) {
-            throw new ManagerSaveException("Can't do save request: " + e);
+        } catch (IOException | InterruptedException exception) {
+            throw new ManagerSaveException("Can't do save request: " + exception);
         }
     }
 
@@ -65,8 +63,8 @@ public class KVTaskClient {
                 throw new ManagerSaveException("Can't do save request, status code:" + response.statusCode());
             }
             return response.body();
-        } catch (IOException | InterruptedException e) {
-            throw new ManagerSaveException("Can't do save request: " + e);
+        } catch (IOException | InterruptedException exception) {
+            throw new ManagerSaveException("Can't do save request: " + exception);
         }
     }
 }

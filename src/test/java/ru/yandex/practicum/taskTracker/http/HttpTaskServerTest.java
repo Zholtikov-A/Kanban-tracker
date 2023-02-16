@@ -132,7 +132,7 @@ class HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(body).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        Long id = 0L;
+        Long id;
         if (response.statusCode() == 200) {
             JsonElement jsonElementBody = JsonParser.parseString(response.body());
             if (!jsonElementBody.isJsonObject()) {
@@ -248,7 +248,7 @@ class HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(body).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        Long id = 0L;
+        Long id;
         if (response.statusCode() == 200) {
             JsonElement jsonElementBody = JsonParser.parseString(response.body());
             if (!jsonElementBody.isJsonObject()) {
@@ -363,7 +363,7 @@ class HttpTaskServerTest {
         HttpRequest request = HttpRequest.newBuilder().uri(url).POST(body).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        Long id = 0L;
+        Long id;
         if (response.statusCode() == 200) {
             JsonElement jsonElementBody = JsonParser.parseString(response.body());
             if (!jsonElementBody.isJsonObject()) {

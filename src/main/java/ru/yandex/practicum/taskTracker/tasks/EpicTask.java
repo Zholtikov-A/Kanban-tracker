@@ -30,10 +30,6 @@ public class EpicTask extends Task {
         return subTasksOfEpicIdList;
     }
 
-    public void setSubTasksOfEpicList(List<Long> subTasksOfEpicList) {
-        this.subTasksOfEpicIdList = subTasksOfEpicList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,4 +44,6 @@ public class EpicTask extends Task {
         return Objects.hash(super.hashCode(), subTasksOfEpicIdList);
     }
 }
+
+
 

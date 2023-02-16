@@ -106,12 +106,14 @@ class KVTaskClientTest {
                 }.getType());
         List<Task> historyTasks = new ArrayList<>();
         for (Long id : historyIds) {
-            historyTasks.add(taskManager.findTask(id));
+            if (taskManager.findTask(id) != null) {
+                historyTasks.add(taskManager.findTask(id));
+            }
         }
 
-        assertEquals(tasks, taskManager.showSimpleTasks(), "Коллекции тасок не равны!");
-        assertEquals(subtasks, taskManager.showSubTasks(), "Коллекции сабтасок не равны!");
-        assertEquals(epics, taskManager.showEpicTasks(), "Коллекции эпиков не равны!");
+        assertEquals(tasks, taskManager.showSimpleTasks(), "Коллекции tasks не равны!");
+        assertEquals(subtasks, taskManager.showSubTasks(), "Коллекции subTasks не равны!");
+        assertEquals(epics, taskManager.showEpicTasks(), "Коллекции epicTasks не равны!");
         assertEquals(historyTasks, taskManager.getHistory(), "Истории не равны!");
     }
 
@@ -131,7 +133,9 @@ class KVTaskClientTest {
                 }.getType());
         List<Task> historyTasksOld = new ArrayList<>();
         for (Long id : historyIdsOld) {
-            historyTasksOld.add(taskManager.findTask(id));
+            if (taskManager.findTask(id) != null) {
+                historyTasksOld.add(taskManager.findTask(id));
+            }
         }
 
         Task taskOld = taskManager.getSimpleTaskById(simpleTaskId1);
@@ -161,17 +165,19 @@ class KVTaskClientTest {
                 }.getType());
         List<Task> historyTasks = new ArrayList<>();
         for (Long id : historyIds) {
-            historyTasks.add(taskManager.findTask(id));
+            if (taskManager.findTask(id) != null) {
+                historyTasks.add(taskManager.findTask(id));
+            }
         }
 
-        assertEquals(tasks, taskManager.showSimpleTasks(), "Коллекции тасок не равны!");
-        assertEquals(subtasks, taskManager.showSubTasks(), "Коллекции сабтасок не равны!");
-        assertEquals(epics, taskManager.showEpicTasks(), "Коллекции эпиков не равны!");
+        assertEquals(tasks, taskManager.showSimpleTasks(), "Коллекции tasks не равны!");
+        assertEquals(subtasks, taskManager.showSubTasks(), "Коллекции subTasks не равны!");
+        assertEquals(epics, taskManager.showEpicTasks(), "Коллекции epicTasks не равны!");
         assertEquals(historyTasks, taskManager.getHistory(), "Истории не равны!");
 
-        assertNotEquals(tasksOld, taskManager.showSimpleTasks(), "Хранятся старые таски!");
-        assertNotEquals(subtasksOld, taskManager.showSubTasks(), "Хранятся старые сабтаски!");
-        assertNotEquals(epicsOld, taskManager.showEpicTasks(), "Хранятся старые эпики!");
+        assertNotEquals(tasksOld, taskManager.showSimpleTasks(), "Хранятся старые tasks!");
+        assertNotEquals(subtasksOld, taskManager.showSubTasks(), "Хранятся старые subTasks!");
+        assertNotEquals(epicsOld, taskManager.showEpicTasks(), "Хранятся старые epicTasks!");
         assertNotEquals(historyTasksOld, taskManager.getHistory(), "Хранится старая история!");
     }
 }

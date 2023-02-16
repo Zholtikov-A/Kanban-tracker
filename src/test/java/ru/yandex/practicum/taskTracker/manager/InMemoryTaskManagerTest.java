@@ -9,5 +9,4 @@ class InMemoryTaskManagerTest extends TaskManagerTest<TaskManager> {
         taskManager = Managers.getDefault();
         createTask();
     }
-
 }

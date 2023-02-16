@@ -8,25 +8,19 @@ import java.io.IOException;
 
 public class Managers {
 
-    private static HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    //private static HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
 
     public static InMemoryTaskManager getDefault() {
         return new InMemoryTaskManager();
     }
 
     public static HistoryManager getDefaultHistory() {
-        return inMemoryHistoryManager;
+        return new InMemoryHistoryManager();
     }
 
 
     public static HttpTaskManager getDefaultHttp() {
         return new HttpTaskManager(KVServer.PORT);
-    }
-
-    public static KVServer getDefaultKVServer() throws IOException {
-        final KVServer kvServer = new KVServer();
-        kvServer.start();
-        return kvServer;
     }
 
     public static Gson getGson() {

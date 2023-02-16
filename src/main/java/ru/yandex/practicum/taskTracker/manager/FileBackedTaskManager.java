@@ -135,7 +135,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 fileWriter.write("\n");
                 fileWriter.write(historyToString(super.getInMemoryHistoryManager()));
             }
-        } catch (IOException e) {
+        } catch (IOException exception) {
             throw new ManagerSaveException("ManagerSaveException");
         }
     }
@@ -200,10 +200,25 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     fileBackedTasksManager.getInMemoryHistoryManager().add(fileBackedTasksManager.subTasks.get(TaskId));
                 }
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
+        fileBackedTasksManager.restorePriority();
         return fileBackedTasksManager;
+    }
+
+    protected void restorePriority() {
+        priority.clear();
+        for (Task task : simpleTasks.values()) {
+            if (task.getStartTime() != null && task.getDuration() != null) {
+                priority.add(task);
+            }
+        }
+        for (SubTask subTask : subTasks.values()) {
+            if (subTask.getStartTime() != null && subTask.getDuration() != null) {
+                priority.add(subTask);
+            }
+        }
     }
 
     private static Task fromString(String value) {

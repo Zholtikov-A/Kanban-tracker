@@ -71,12 +71,14 @@ class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
 
     @Test
     public void restoreManagerFromEmptyServer() {
+        taskManager.removeAllSimpleTasks();
+        taskManager.removeAllEpicTasks();
         HttpTaskManager httpTaskManager = new HttpTaskManager(8078, false);
 
         HttpTaskManager httpTaskManagerRestored = new HttpTaskManager(8078, true);
 
-        List<Task> simpleTaskList = httpTaskManager.showSimpleTasks();
-        List<Task> simpleTaskListRestored = httpTaskManagerRestored.showSimpleTasks();
+        final List<Task> simpleTaskList = httpTaskManager.showSimpleTasks();
+        final List<Task> simpleTaskListRestored = httpTaskManagerRestored.showSimpleTasks();
         Assertions.assertEquals(simpleTaskList, simpleTaskListRestored);
 
         List<Task> epicTaskList = httpTaskManager.showSimpleTasks();

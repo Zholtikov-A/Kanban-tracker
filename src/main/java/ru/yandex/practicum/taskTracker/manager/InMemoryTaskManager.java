@@ -14,7 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Long, Task> simpleTasks = new HashMap<>();
     protected Map<Long, SubTask> subTasks = new HashMap<>();
     protected Map<Long, EpicTask> epicTasks = new HashMap<>();
-    protected Set<Task> priority = new TreeSet<>((Task task1, Task task2) -> task1.getStartTime().compareTo(task2.getStartTime()));
+    protected Set<Task> priority = new TreeSet<>(Comparator.comparing(Task::getStartTime));
     private Map<LocalDateTime, Boolean> schedule = createSchedule();
 
     private Long generateId() {
@@ -221,7 +221,7 @@ public class InMemoryTaskManager implements TaskManager {
             int numberOfDoneSubTasks = 0;
             Map<Long, SubTask> subList = new HashMap<>();
             for (SubTask subTask : subTasks.values()) {
-                if (subTask.getEpicTaskId() == epicTaskId) {
+                if (Objects.equals(subTask.getEpicTaskId(), epicTaskId)) {
                     subList.put(subTask.getId(), subTask);
                 }
             }
@@ -325,7 +325,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> showSubTasksOfEpic(Long epicTaskId) {
         List<SubTask> subList = new ArrayList<>();
         for (SubTask subTask : subTasks.values()) {
-            if (subTask.getEpicTaskId() == epicTaskId) {
+            if (Objects.equals(subTask.getEpicTaskId(), epicTaskId)) {
                 subList.add(subTask);
             }
         }
@@ -341,7 +341,6 @@ public class InMemoryTaskManager implements TaskManager {
             if (epicTasks.get(epicTaskId).getSubTasksOfEpicList().isEmpty()) {
                 epicTasks.get(epicTaskId).setDuration(null);
                 epicTasks.get(epicTaskId).setStartTime(null);
-                return;
             } else {
                 Duration epicDuration = Duration.ZERO;
                 LocalDateTime epicStartTime = LocalDateTime.MAX;
@@ -371,8 +370,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private Map<LocalDateTime, Boolean> createSchedule() {
         Map<LocalDateTime, Boolean> schedule = new HashMap<>();
-        LocalDateTime startOfYear = LocalDateTime.of(2023, Month.JANUARY, 1, 0, 0, 0);
-        LocalDateTime currentDateTime = startOfYear;
+        LocalDateTime currentDateTime = LocalDateTime.of(2023, Month.JANUARY, 1, 0, 0, 0);
         LocalDateTime endOfYear = LocalDateTime.of(2024, Month.JANUARY, 1, 0, 0, 0);
         while (currentDateTime.isBefore(endOfYear)) {
             schedule.put(currentDateTime, false);
@@ -382,7 +380,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private boolean collisionCheck(Task task) {
-        if (task.getStartTime() == null || task.getDuration() == null) {
+        if (task.getStartTime() == null || task.getDuration() == null || task.getType().equals(TaskType.EPIC)) {
             return false;
         }
         boolean isCollision = false;
@@ -404,19 +402,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     public Task findTask(Long id) {
         for (Task task : simpleTasks.values()) {
-            if (id == task.getId()) {
+            if (Objects.equals(id, task.getId())) {
                 return task;
             }
         }
 
         for (SubTask subTask : subTasks.values()) {
-            if (id == subTask.getId()) {
+            if (Objects.equals(id, subTask.getId())) {
                 return subTask;
             }
         }
 
         for (EpicTask epicTask : epicTasks.values()) {
-            if (id == epicTask.getId()) {
+            if (Objects.equals(id, epicTask.getId())) {
                 return epicTask;
             }
         }

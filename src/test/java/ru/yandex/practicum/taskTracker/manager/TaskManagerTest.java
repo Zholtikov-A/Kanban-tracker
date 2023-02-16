@@ -745,7 +745,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void showEpicTasksSuccessfulReturnListOfEpicTasks() {
-        taskManager.removeSubTaskById(subTaskId7); //наличие сабтаски мешает equals
+        taskManager.removeSubTaskById(subTaskId7); //наличие subTask мешает equals
         EpicTask expectedEpicTask = new EpicTask(epicTaskId6, TaskType.EPIC, "Second EpicTask", TaskStatus.NEW,
                 "EpicTask(Id=6 without DateTime)");
         final List<EpicTask> testEpicTasks = taskManager.showEpicTasks();
@@ -797,7 +797,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void getEpicTaskByIdIdSuccessfulReturnEpicTask() {
-        taskManager.removeSubTaskById(subTaskId7); //наличие сабтаски мешает equals
+        taskManager.removeSubTaskById(subTaskId7); //наличие subTask мешает equals
         EpicTask expectedEpicTask = new EpicTask(epicTaskId6, TaskType.EPIC, "Second EpicTask", TaskStatus.NEW,
                 "EpicTask(Id=6 without DateTime)");
         final EpicTask savedEpicTask = taskManager.getEpicTaskById(epicTaskId6);

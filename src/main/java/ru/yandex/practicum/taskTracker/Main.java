@@ -30,19 +30,19 @@ public class Main {
         taskManager = new HttpTaskManager(8080);
         client = HttpClient.newHttpClient();
 
-               getAllTasksTest();
+        getAllTasksTest();
         createSimpleTaskTest();
         getSimpleTaskByIdTest();
     }
 
     public static void getAllTasksTest() throws IOException, InterruptedException {
-                URI url = URI.create("http://localhost:8080/tasks/task");
+        URI url = URI.create("http://localhost:8080/tasks/task");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     public static void createSimpleTaskTest() throws IOException, InterruptedException {
-              URI url = URI.create("http://localhost:8080/tasks/task");
+        URI url = URI.create("http://localhost:8080/tasks/task");
         Gson gson = Managers.getGson();
         Long newTaskId = taskManager.saveSimpleTask(
                 new Task("Second SimpleTask", "SimpleTask(ID=2) with DateTime", LocalDateTime.of(2023, Month.MARCH, 5, 14, 0, 0), Duration.ofMinutes(15)));
@@ -54,7 +54,7 @@ public class Main {
     }
 
     public static void getSimpleTaskByIdTest() throws IOException, InterruptedException {
-               URI url = URI.create("http://localhost:8080/tasks/task/?id=1");
+        URI url = URI.create("http://localhost:8080/tasks/task/?id=1");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
     }

@@ -76,8 +76,11 @@ public class HttpTaskManager extends FileBackedTaskManager {
                 new TypeToken<ArrayList<Long>>() {
                 }.getType());
         for (Long taskId : history) {
-            getInMemoryHistoryManager().add(findTask(taskId));
+            if (findTask(taskId) != null) {
+                getInMemoryHistoryManager().add(findTask(taskId));
+            }
         }
+        restorePriority();
     }
 
     @Override
