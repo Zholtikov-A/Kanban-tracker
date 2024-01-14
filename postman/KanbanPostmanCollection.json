@@ -272,10 +272,10 @@
 							"    pm.expect(jsonData).to.have.property('status');",
 							"    pm.expect(jsonData.status, '\"status\" field must be \"NEW\"').to.eql('NEW');    ",
 							"});",
-							"pm.test(\"Test 'subTasksIds' field\", function () {",
+							"pm.test(\"Test 'subTasksOfEpicIdList' field\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.have.property('subTasksIds');",
-							"    pm.expect(jsonData.subTasksIds.length, '\"subTasksIds\" field must be have 0 subtasks').to.eql(0);    ",
+							"    pm.expect(jsonData).to.have.property('subTasksOfEpicIdList');",
+							"    pm.expect(jsonData.subTasksOfEpicIdList.length, '\"subTasksOfEpicIdList\" field must be have 0 subtasks').to.eql(0);    ",
 							"});"
 						],
 						"type": "text/javascript"
@@ -343,10 +343,10 @@
 							"    pm.expect(jsonData).to.have.property('status');",
 							"    pm.expect(jsonData.status, '\"status\" field must be \"NEW\"').to.eql('NEW');    ",
 							"});",
-							"pm.test(\"Test 'subTasksIds' field\", function () {",
+							"pm.test(\"Test 'subTasksOfEpicIdList' field\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.have.property('subTasksIds');",
-							"    pm.expect(jsonData.subTasksIds.length, '\"subTasksIds\" field must be have 0 subtasks').to.eql(0);    ",
+							"    pm.expect(jsonData).to.have.property('subTasksOfEpicIdList');",
+							"    pm.expect(jsonData.subTasksOfEpicIdList.length, '\"subTasksOfEpicIdList\" field must be have 0 subtasks').to.eql(0);    ",
 							"});"
 						],
 						"type": "text/javascript"
@@ -394,10 +394,10 @@
 							"    pm.response.to.be.withBody;",
 							"    pm.response.to.be.json;",
 							"});",
-							"pm.test(\"Test 'epicId' field is 2\", function () {",
+							"pm.test(\"Test 'epicTaskId' field is 2\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.have.property('epicId');",
-							"    pm.expect(jsonData.epicId, '\"epicId\" must be 2').to.eql(2);",
+							"    pm.expect(jsonData).to.have.property('epicTaskId');",
+							"    pm.expect(jsonData.epicTaskId, '\"epicTaskId\" must be 2').to.eql(2);",
 							"});",
 							"pm.test(\"Test 'id' field is 3\", function () {",
 							"    var jsonData = pm.response.json();",
@@ -429,7 +429,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"Subtask\",\n  \"description\": \"Subtask (id 3) of epic task (id 2)\",\n  \"epicId\" : \"2\"\n}",
+					"raw": "{\n  \"name\": \"Subtask\",\n  \"description\": \"Subtask (id 3) of epic task (id 2)\",\n  \"epicTaskId\" : \"2\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -572,10 +572,10 @@
 							"    pm.response.to.be.withBody;",
 							"    pm.response.to.be.json;",
 							"});",
-							"pm.test(\"Test 'epicId' field is 2\", function () {",
+							"pm.test(\"Test 'epicTaskId' field is 2\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.have.property('epicId');",
-							"    pm.expect(jsonData.epicId, '\"epicId\" must be 2').to.eql(2);",
+							"    pm.expect(jsonData).to.have.property('epicTaskId');",
+							"    pm.expect(jsonData.epicTaskId, '\"epicTaskId\" must be 2').to.eql(2);",
 							"});",
 							"pm.test(\"Test 'id' field is 3\", function () {",
 							"    var jsonData = pm.response.json();",
@@ -607,7 +607,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": 3,\n  \"name\": \"Subtask update\",\n  \"description\": \"Subtask (id 3) of epic task (id 2) update\",\n  \"epicId\" : \"2\",\n  \"status\": \"IN_PROGRESS\"\n}",
+					"raw": "{\n  \"id\": 3,\n  \"name\": \"Subtask update\",\n  \"description\": \"Subtask (id 3) of epic task (id 2) update\",\n  \"epicTaskId\" : \"2\",\n  \"status\": \"IN_PROGRESS\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -663,10 +663,10 @@
 							"    pm.expect(jsonData).to.have.property('status');",
 							"    pm.expect(jsonData.status, '\"status\" field must be \"IN_PROGRESS\"').to.eql('IN_PROGRESS');    ",
 							"});",
-							"pm.test(\"Test 'subTasksIds' field\", function () {",
+							"pm.test(\"Test 'subTasksOfEpicIdList' field\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.have.property('subTasksIds');",
-							"    pm.expect(jsonData.subTasksIds.length, '\"subTasksIds\" field must be have 1 subtasks').to.eql(1);    ",
+							"    pm.expect(jsonData).to.have.property('subTasksOfEpicIdList');",
+							"    pm.expect(jsonData.subTasksOfEpicIdList.length, '\"subTasksOfEpicIdList\" field must be have 1 subtasks').to.eql(1);    ",
 							"});"
 						],
 						"type": "text/javascript"

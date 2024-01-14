@@ -105,7 +105,7 @@ http://localhost:8080/tasks
 ### Testing
 
 * Unit-тесты: src/test/java
-* Postman-тесты: postman/PmTests.json
+* Postman-тесты: postman/KanbanPostmanCollection.json
 
 ### Статус и планы по доработке проекта
 

@@ -181,12 +181,12 @@ public class HttpTaskServer {
                 final Long id = subTask.getId();
                 if (id != null) {
                     taskManager.updateSubTask(subTask);
-                    final String response = gson.toJson(subTask);
+                    final String response = gson.toJson(taskManager.getSubTaskById(id));
                     sendText(exchange, response);
                 } else {
                     Long subTaskId = taskManager.saveSubTask(subTask);
                     subTask.setId(subTaskId);
-                    final String response = gson.toJson(subTask);
+                    final String response = gson.toJson(taskManager.getSubTaskById(subTaskId));
                     sendText(exchange, response);
                 }
             }
