@@ -248,6 +248,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Long saveEpicTask(EpicTask epicTask) {
         epicTask.setId(generateId());
         epicTask.setStatus(TaskStatus.NEW);
+        epicTask.setSubTasksOfEpicIdList(new ArrayList<>());
         epicTasks.put(epicTask.getId(), epicTask);
         return epicTask.getId();
     }
@@ -257,12 +258,12 @@ public class InMemoryTaskManager implements TaskManager {
         if (epicTasks.containsKey(epicTask.getId())) {
             EpicTask epicTaskReserved = epicTasks.get(epicTask.getId());
             Long id = epicTask.getId();
-            TaskStatus status = epicTasks.get(id).getStatus();
-            epicTask.setStatus(status);
-            epicTask.setType(TaskType.EPIC);
-            epicTasks.replace(id, epicTask);
+            EpicTask epicUpdated = epicTasks.get(id);
+            epicUpdated.setName(epicTask.getName());
+            epicUpdated.setDescription(epicTask.getDescription());
+            epicTasks.replace(id, epicUpdated);
             if (getHistory().contains(epicTaskReserved)) {
-                inMemoryHistoryManager.updateHistory(epicTask);
+                inMemoryHistoryManager.updateHistory(epicUpdated);
             }
         }
     }

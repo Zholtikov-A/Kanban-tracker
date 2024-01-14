@@ -233,12 +233,12 @@ public class HttpTaskServer {
                 final Long id = epicTask.getId();
                 if (id != null) {
                     taskManager.updateEpicTask(epicTask);
-                    final String response = gson.toJson(epicTask);
+                    final String response = gson.toJson(taskManager.getEpicTaskById(id));
                     sendText(exchange, response);
                 } else {
                     Long epicTaskId = taskManager.saveEpicTask(epicTask);
                     epicTask.setId(epicTaskId);
-                    final String response = gson.toJson(epicTask);
+                    final String response = gson.toJson(taskManager.getEpicTaskById(epicTaskId));
                     sendText(exchange, response);
                 }
             }

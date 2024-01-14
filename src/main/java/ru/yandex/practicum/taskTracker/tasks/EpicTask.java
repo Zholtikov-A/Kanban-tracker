@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class EpicTask extends Task {
+
     private List<Long> subTasksOfEpicIdList = new ArrayList<>();
 
     public EpicTask(String name, String description) {
@@ -28,6 +29,9 @@ public class EpicTask extends Task {
 
     public List<Long> getSubTasksOfEpicList() {
         return subTasksOfEpicIdList;
+    }
+    public void setSubTasksOfEpicIdList(List<Long> subTasksOfEpicIdList) {
+        this.subTasksOfEpicIdList = subTasksOfEpicIdList;
     }
 
     @Override
